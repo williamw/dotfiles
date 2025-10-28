@@ -3,6 +3,11 @@
 # PLACEHOLDER
 # This file will be used to install tools
 
+# nerd fonts
+curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/install.sh | bash
+source ~/.zshrc
+getnf -i FiraCode
+
 # nvim + lazyvim
 if [[ "$OSTYPE" == "darwin"* ]]; then
     brew install neovim

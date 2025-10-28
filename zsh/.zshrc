@@ -16,6 +16,10 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+PROMPT='
+%F{cyan}%~%f $(git_prompt_info)$(bzr_prompt_info)%F{240}[%n@%m]%f %F{240}[%T]%f
+%F{208}❯%f '
+
 if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
  else
@@ -34,7 +38,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 nvm use --silent default
 
-# alias claude="/Users/billw/.claude/local/claude"
+alias claude="$HOME/.claude/local/claude"
 export PATH="$HOME/.local/bin:$PATH"
 
 # pnpm

@@ -5,6 +5,7 @@
 **/.zsh_history
 **/zcompdump*
 **/.zcompdump*
+**/.zsh_sessions
 
 # Ignore secrets
 **/*secret*
