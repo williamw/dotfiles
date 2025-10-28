@@ -13,8 +13,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     brew install neovim
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     sudo add-apt-repository -y ppa:neovim-ppa/stable
-    sudo apt update
-    sudo apt install -y neovim
+    sudo apt-get update
+    sudo apt-get install -y neovim
 fi
 
 # uv
