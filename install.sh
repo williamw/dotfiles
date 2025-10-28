@@ -71,6 +71,12 @@ if [ ! -d "$HOME/.nvm" ]; then
     nvm alias default 22
 fi
 
+# Claude Code
+if ! command -v claude &> /dev/null; then
+    echo "Installing Claude Code..."
+    curl -fsSL https://claude.ai/install.sh | bash
+fi
+
 # Nerd font
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     if [ ! -d "$HOME/.local/share/fonts/FiraCode" ]; then
