@@ -1,12 +1,35 @@
 #!/bin/bash
 
-# PLACEHOLDER
-# This file will be used to install tools
+sudo chown -R $USER:$USER ~/.config 2>/dev/null || true
 
-# nerd fonts
-curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/install.sh | bash
-source ~/.zshrc
-getnf -i FiraCode
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Remove conflicting files
+rm -f ~/.zshrc ~/.zshenv
+
+# Create symlinks
+ln -sf "$DOTFILES/alacritty" "$HOME/.config/alacritty"
+ln -sf "$DOTFILES/gh" "$HOME/.config/gh"
+ln -sf "$DOTFILES/git" "$HOME/.config/git"
+ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
+ln -sf "$DOTFILES/zsh" "$HOME/.config/zsh"
+
+# Bootstrap zsh
+echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
+
+# Change shell
+sudo chsh -s $(which zsh) $USER
+
+# Nerd fonts
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
+    chmod +x /tmp/getnf
+    /tmp/getnf -i FiraCode
+    rm /tmp/getnf
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    brew tap homebrew/cask-fonts
+    brew install font-fira-code-nerd-font
+fi
 
 # nvim + lazyvim
 if [[ "$OSTYPE" == "darwin"* ]]; then
