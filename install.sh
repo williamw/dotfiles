@@ -13,11 +13,16 @@ rm -f ~/.zshrc ~/.zshenv
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-ln -sf "$DOTFILES/alacritty" "$HOME/.config/alacritty"
-ln -sf "$DOTFILES/gh" "$HOME/.config/gh"
-ln -sf "$DOTFILES/git" "$HOME/.config/git"
-ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
-ln -sf "$DOTFILES/zsh" "$HOME/.config/zsh"
+# Only create symlinks if dotfiles are not already in ~/.config
+# (e.g., when cloned to ~/.config/coderv2/dotfiles in RDE)
+if [ "$DOTFILES" != "$HOME/.config" ]; then
+    ln -sf "$DOTFILES/alacritty" "$HOME/.config/alacritty"
+    ln -sf "$DOTFILES/gh" "$HOME/.config/gh"
+    ln -sf "$DOTFILES/git" "$HOME/.config/git"
+    ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
+    ln -sf "$DOTFILES/zsh" "$HOME/.config/zsh"
+fi
+
 ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
 
 echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
