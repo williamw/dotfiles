@@ -2,6 +2,7 @@
 working_directory = "~/Developer"
 
 [window]
+dimensions = { columns = 180, lines = 50 }
 option_as_alt = "Both"
 padding = { x = 14, y = 10 }
 dynamic_padding = true
