@@ -24,6 +24,20 @@ echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
 
 sudo chsh -s $(which zsh) $USER
 
+# gh cli
+if ! command -v gh &> /dev/null; then
+    echo "Installing GitHub CLI..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install gh
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+        && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+        && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+        && sudo apt-get update \
+        && sudo apt-get install -y gh
+    fi
+fi
+
 # nvim + lazyvim
 if ! command -v nvim &> /dev/null; then
     echo "Installing neovim..."
@@ -37,7 +51,7 @@ if ! command -v nvim &> /dev/null; then
 fi
 
 # uv
-if ! command -v uv &> /dev/null; then
+if [ ! -f "$HOME/.local/bin/uv" ]; then
     echo "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
