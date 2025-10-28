@@ -38,7 +38,7 @@ nvm use --silent default
 export PATH="$HOME/.local/bin:$PATH"
 
 # pnpm
-export PNPM_HOME="/Users/billw/Library/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
