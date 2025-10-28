@@ -16,8 +16,15 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# Set machine name color based on OS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  SYSTEM_COLOR="cyan"
+else
+  SYSTEM_COLOR="magenta"
+fi
+
 PROMPT='
-%F{208}%~%f $(git_prompt_info)$(bzr_prompt_info)%F{cyan}[%n@%m]%f %F{240}[%T]%f
+%F{208}%~%f $(git_prompt_info)$(bzr_prompt_info)%F{${SYSTEM_COLOR}}[%n@%m]%f %F{240}[%T]%f
 %F{208}❯%f '
 
 if [[ -n $SSH_CONNECTION ]]; then
