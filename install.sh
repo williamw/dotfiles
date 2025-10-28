@@ -1,8 +1,10 @@
 #!/bin/bash
 
 sudo chown -R $USER:$USER ~/.config 2>/dev/null || true
-
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# oh-my-zsh (must run first)
+RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Remove conflicting files
 rm -f ~/.zshrc ~/.zshenv
@@ -13,6 +15,7 @@ ln -sf "$DOTFILES/gh" "$HOME/.config/gh"
 ln -sf "$DOTFILES/git" "$HOME/.config/git"
 ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
 ln -sf "$DOTFILES/zsh" "$HOME/.config/zsh"
+ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
 
 # Bootstrap zsh
 echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
