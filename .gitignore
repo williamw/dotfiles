@@ -12,3 +12,4 @@
 **/*token*
 **/.env
 **/.env.*
+gh/hosts.yml
