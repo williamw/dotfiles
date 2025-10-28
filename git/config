@@ -1,0 +1,5 @@
+[user]
+	name = Bill Welense
+	email = billw@modular.com
+[pull]
+	rebase = true

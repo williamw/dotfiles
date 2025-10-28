@@ -1,0 +1,13 @@
+# Ignore cache and history
+**/cache/
+**/.cache/
+**/history
+**/.zsh_history
+**/zcompdump*
+**/.zcompdump*
+
+# Ignore secrets
+**/*secret*
+**/*token*
+**/.env
+**/.env.*

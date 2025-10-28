@@ -1,0 +1,16 @@
+[general]
+working_directory = "~/Developer"
+
+[window]
+option_as_alt = "Both"
+padding = { x = 14, y = 10 }
+dynamic_padding = true
+
+[keyboard]
+bindings = [
+  { key = "Left", mods = "Alt", chars = "\u001bb" },
+  { key = "Right", mods = "Alt", chars = "\u001bf" },
+]
+
+[font]
+size = 13.5
