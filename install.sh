@@ -4,7 +4,10 @@ sudo chown -R $USER:$USER ~/.config 2>/dev/null || true
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # oh-my-zsh (must run first)
-RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Installing oh-my-zsh..."
+    RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
 # Remove conflicting files
 rm -f ~/.zshrc ~/.zshenv
@@ -23,29 +26,55 @@ echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
 # Change shell
 sudo chsh -s $(which zsh) $USER
 
-# Nerd fonts
+# Nerd font
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
-    chmod +x /tmp/getnf
-    /tmp/getnf -i FiraCode
-    rm /tmp/getnf
+    if [ ! -d "$HOME/.local/share/fonts/FiraCode" ]; then
+        echo "Installing FiraCode Nerd Font..."
+        curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
+        chmod +x /tmp/getnf
+        /tmp/getnf -i FiraCode
+        rm /tmp/getnf
+    fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    brew tap homebrew/cask-fonts
-    brew install font-fira-code-nerd-font
+    if ! ls ~/Library/Fonts/*FiraCode*Nerd* &> /dev/null && ! ls /Library/Fonts/*FiraCode*Nerd* &> /dev/null; then
+        echo "Installing FiraCode Nerd Font..."
+        brew tap homebrew/cask-fonts
+        brew install font-fira-code-nerd-font
+    fi
 fi
 
 # nvim + lazyvim
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    brew install neovim
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    sudo add-apt-repository -y ppa:neovim-ppa/stable
-    sudo apt-get update
-    sudo apt-get install -y neovim
+if ! command -v nvim &> /dev/null; then
+    echo "Installing neovim..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install neovim
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        sudo add-apt-repository -y ppa:neovim-ppa/stable
+        sudo apt-get update
+        sudo apt-get install -y neovim
+    fi
 fi
 
 # uv
+if ! command -v uv &> /dev/null; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
 
 # nvm
+if [ ! -d "$HOME/.nvm" ]; then
+    echo "Installing nvm..."
+    
+    # Get latest version and install
+    NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+
+    # Install node/npm
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm install 22
+    nvm alias default 22
+fi
 
 # pnpm
 

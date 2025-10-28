@@ -17,7 +17,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 PROMPT='
-%F{cyan}%~%f $(git_prompt_info)$(bzr_prompt_info)%F{240}[%n@%m]%f %F{240}[%T]%f
+%F{208}%~%f $(git_prompt_info)$(bzr_prompt_info)%F{cyan}[%n@%m]%f %F{240}[%T]%f
 %F{208}❯%f '
 
 if [[ -n $SSH_CONNECTION ]]; then
