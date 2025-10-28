@@ -45,7 +45,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 nvm use --silent default
 
-alias claude="$HOME/.claude/local/claude"
 export PATH="$HOME/.local/bin:$PATH"
 
 # pnpm
