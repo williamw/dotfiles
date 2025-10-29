@@ -1,0 +1,59 @@
+{
+  "editor.fontSize": 14,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "cmake.configureOnOpen": true,
+  "explorer.confirmDelete": false,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.openRepositoryInParentFolders": "always",
+  "editor.inlineSuggest.enabled": true,
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": true,
+    "markdown": false,
+    "scminput": false
+  },
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [80],
+    "editor.selectionHighlight": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "files.autoSave": "onFocusChange",
+  "cmake.pinnedCommands": [
+    "workbench.action.tasks.configureTaskRunner",
+    "workbench.action.tasks.runTask"
+  ],
+  "security.workspace.trust.untrustedFiles": "open",
+  "git.autofetch": true,
+  "cmake.showOptionsMovedNotification": false,
+  "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
+  "vsicons.dontShowNewVersionMessage": true,
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "chat.commandCenter.enabled": false,
+  "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
+  "github.copilot.nextEditSuggestions.enabled": false,
+  "claudeCodeChat.thinking.intensity": "think-harder",
+  "workbench.activityBar.location": "top",
+  "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.autoIndentOnPaste": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "remote.SSH.connectTimeout": 1800,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
+  "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
+  "codesnap.transparentBackground": true,
+  "explorer.confirmDragAndDrop": false,
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1"
+}

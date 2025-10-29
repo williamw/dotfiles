@@ -31,7 +31,7 @@ if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
  else
    export EDITOR='nvim'
- fi
+fi
 
 # cargo
 export PATH=$HOME/.cargo/bin:$PATH

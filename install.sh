@@ -136,6 +136,37 @@ else
     echo "✓ Neovim is already installed."
 fi
 
+# Detect VS Code config directory
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    VSCODE_CONFIG_DIR="$HOME/Library/Application Support/Code/User"
+else
+    VSCODE_CONFIG_DIR="$HOME/.config/Code/User"
+fi
+
+# Only configure if VS Code config directory exists
+if [ -d "$VSCODE_CONFIG_DIR" ]; then
+    echo "🔧Configuring VS Code..."
+    
+    # Symlink settings and keybindings if dotfiles are not already in ~/.config
+    if [ "$DOTFILES" != "$HOME/.config" ]; then
+        ln -sf "$DOTFILES/vscode" "$HOME/.config/vscode"
+    fi
+
+    ln -sf "$DOTFILES/vscode/settings.json" "$VSCODE_CONFIG_DIR/settings.json"
+    ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_CONFIG_DIR/keybindings.json"
+
+    # Install extensions if code CLI is available
+    if command -v code &> /dev/null; then
+        echo "📦Installing VS Code extensions..."
+        cat "$DOTFILES/vscode/extensions.txt" | xargs -L1 code --install-extension
+    else
+        echo "⚠️ VS Code CLI not found. Skipping extension installation."
+        echo "   Run 'cat ~/.config/vscode/extensions.txt | xargs -L1 code --install-extension' later."
+    fi
+else
+    echo "⚠️Skipping VS Code configuration."
+fi
+
 # Cleanup: Replace hardcoded user paths with $HOME for portability
 echo "🧹Cleaning up hardcoded paths..."
 

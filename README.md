@@ -14,6 +14,7 @@ This repository configures the following tools and applications:
 - **pnpm** - Fast, disk space efficient package manager for Node.js
 - **FiraCode Nerd Font** - Monospaced font with programming ligatures and icons
 - **Neovim** - Hyperextensible Vim-based text editor
+- **VS Code** - Settings, keybindings, and extensions for Visual Studio Code
 - **GitHub CLI (gh)** - GitHub's official command line tool
 - **git** - Version control configuration
 - **Alacritty** - GPU-accelerated terminal emulator
@@ -52,6 +53,7 @@ When using this repository with Coder's Remote Development Environment (RDE), th
 ~/.config/gh -> ~/.config/coderv2/dotfiles/gh
 ~/.config/git -> ~/.config/coderv2/dotfiles/git
 ~/.config/nvim -> ~/.config/coderv2/dotfiles/nvim
+~/.config/vscode -> ~/.config/coderv2/dotfiles/vscode
 ~/.config/zsh -> ~/.config/coderv2/dotfiles/zsh
 ```
 
