@@ -5,6 +5,7 @@
     "allow": [
       "Bash(ls:*)",
       "Bash(cat:*)",
+      "Bash(echo:*)",
       "Bash(find:*)",
       "Bash(curl:*)",
       "Bash(git log:*)",

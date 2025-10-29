@@ -4,14 +4,14 @@ sudo chown -R $USER:$USER ~/.config 2>/dev/null || true
 
 # oh-my-zsh (must run first)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "☁️ Downloading oh-my-zsh..."
+    echo "☁️Downloading oh-my-zsh..."
     RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
-    echo "✅ oh-my-zsh is already installed."
+    echo "✓ oh-my-zsh is already installed."
 fi
 
 # Bootstrap
-echo "⚙️  Configuring shell..."
+echo "🔧Configuring shell..."
 rm -f ~/.zshrc ~/.zshenv
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -34,28 +34,28 @@ sudo chsh -s $(which zsh) $USER
 
 # Claude Code
 if ! command -v claude &> /dev/null; then
-    echo "☁️ Downloading Claude Code..."
+    echo "☁️Downloading Claude Code..."
     curl -fsSL https://claude.ai/install.sh | bash
 else
-    echo "✅ Claude Code is already installed."
+    echo "✓ Claude Code is already installed."
 fi
 
 # Claude Code config
-echo "⚙️  Configuring Claude Code..."
+echo "🔧Configuring Claude Code..."
 rm -f ~/.claude/settings.json
 ln -sf "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
 
 # uv
 if [ ! -f "$HOME/.local/bin/uv" ]; then
-    echo "☁️ Downloading uv..."
+    echo "☁️Downloading uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
 else
-    echo "✅ uv is already installed."
+    echo "✓ uv is already installed."
 fi
 
 # nvm
 if [ ! -d "$HOME/.nvm" ]; then
-    echo "☁️ Downloading nvm..."
+    echo "☁️Downloading nvm..."
     
     # Get latest version and install
     NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
@@ -67,7 +67,7 @@ if [ ! -d "$HOME/.nvm" ]; then
     nvm install 22
     nvm alias default 22
 else
-    echo "✅ nvm is already installed."
+    echo "✓ nvm is already installed."
 fi
 
 # Nerd font
@@ -79,36 +79,36 @@ else
 fi
 
 if [ ! -d "$FONT_DIR" ]; then
-    echo "☁️ Downloading FiraCode Nerd Font..."
+    echo "☁️Downloading FiraCode Nerd Font..."
     curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
     chmod +x /tmp/getnf
     /tmp/getnf -i FiraCode
     rm /tmp/getnf
 else
-    echo "✅ FiraCode font is already installed."
+    echo "✓ FiraCode font is already installed."
 fi
 
 # pnpm
 if ! command -v pnpm &> /dev/null; then
-    echo "☁️ Downloading pnpm..."
+    echo "☁️Downloading pnpm..."
     curl -fsSL https://get.pnpm.io/install.sh | sh -
 else
-    echo "✅ pnpm is already installed."
+    echo "✓ pnpm is already installed."
 fi
 
 # Homebrew (macOS only)
 if [[ "$OSTYPE" == "darwin"* ]]; then
     if ! command -v brew &> /dev/null; then
-        echo "☁️ Downloading Homebrew..."
+        echo "☁️Downloading Homebrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
-        echo "✅ Homebrew is already installed."
+        echo "✓ Homebrew is already installed."
     fi
 fi
 
 # gh cli
 if ! command -v gh &> /dev/null; then
-    echo "☁️ Downloading GitHub CLI..."
+    echo "☁️Downloading GitHub CLI..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install gh
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -119,12 +119,12 @@ if ! command -v gh &> /dev/null; then
         && sudo apt-get install -y gh
     fi
 else
-    echo "✅ GitHub CLI is already installed."
+    echo "✓ GitHub CLI is already installed."
 fi
 
 # nvim + lazyvim
 if ! command -v nvim &> /dev/null; then
-    echo "☁️ Downloading neovim..."
+    echo "☁️Downloading neovim..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install neovim
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -133,5 +133,22 @@ if ! command -v nvim &> /dev/null; then
         sudo apt-get install -y neovim
     fi
 else
-    echo "✅ Neovim is already installed."
+    echo "✓ Neovim is already installed."
 fi
+
+# Cleanup: Replace hardcoded user paths with $HOME for portability
+echo "🧹Cleaning up hardcoded paths..."
+
+cd "$DOTFILES"
+git ls-files | while IFS= read -r file; do
+  if [ -f "$file" ]; then
+    # Handles macOS / Linux sed differences
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      sed -i '' -E 's|$HOME/]+|\$HOME|g; s|$HOME/]+|\$HOME|g' "$file" 2>/dev/null
+    else
+      sed -i -E 's|$HOME/]+|\$HOME|g; s|$HOME/]+|\$HOME|g' "$file" 2>/dev/null
+    fi
+  fi
+done
+
+echo "🕺Done setting up dotfiles!"
