@@ -84,13 +84,12 @@ else
 fi
 
 # pnpm
-
-# TODO: Add install step for pnpm
-
-# NOTE: Double-check how the pnpm install script works
-#       There may already be a config in $HOME/.local/share/pnpm
-#       We may need to run this:
-# pnpm config set global-bin-dir "$HOME/.config/pnpm"
+if ! command -v pnpm &> /dev/null; then
+    echo "Installing pnpm..."
+    curl -fsSL https://get.pnpm.io/install.sh | sh -
+else
+    echo "pnpm is already installed."
+fi
 
 # Homebrew (macOS only)
 if [[ "$OSTYPE" == "darwin"* ]]; then
