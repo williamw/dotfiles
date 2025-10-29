@@ -10,7 +10,6 @@ esbenp.prettier-vscode
 fill-labs.dependi
 jjjermiah.pixi-vscode
 llvm-vs-code-extensions.vscode-clangd
-llvm-vs-code-extensions.vscode-mlir
 modular-mojotools.vscode-mojo
 monokai.theme-monokai-pro-vscode
 moshfeu.compare-folders
@@ -18,7 +17,7 @@ ms-azuretools.vscode-containers
 ms-azuretools.vscode-docker
 ms-python.debugpy
 ms-python.python
-ms-python.vscode-pylance
+ms-pyright.pyright
 ms-toolsai.jupyter
 ms-toolsai.jupyter-keymap
 ms-toolsai.jupyter-renderers
@@ -31,8 +30,6 @@ ms-vscode.remote-explorer
 ms-vscode.remote-server
 rickaym.manim-sideview
 streetsidesoftware.code-spell-checker
-troelsdamgaard.reflow-paragraph
-twxs.cmake
 unifiedjs.vscode-mdx
 vadimcn.vscode-lldb
 vscode-icons-team.vscode-icons

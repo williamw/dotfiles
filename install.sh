@@ -137,16 +137,32 @@ else
 fi
 
 # Detect VS Code config directory
+# Check multiple possible locations in order of preference
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    VSCODE_CONFIG_DIR="$HOME/Library/Application Support/Code/User"
+    # macOS paths
+    if [ -d "$HOME/Library/Application Support/Code/User" ]; then
+        VSCODE_CONFIG_DIR="$HOME/Library/Application Support/Code/User"
+    elif [ -d "$HOME/.local/share/code-server/User" ]; then
+        VSCODE_CONFIG_DIR="$HOME/.local/share/code-server/User"
+    fi
 else
-    VSCODE_CONFIG_DIR="$HOME/.config/Code/User"
+    # Linux paths - check in order: desktop VS Code, code-server, then create for code-server if it exists
+    if [ -d "$HOME/.config/Code/User" ]; then
+        VSCODE_CONFIG_DIR="$HOME/.config/Code/User"
+    elif [ -d "$HOME/.local/share/code-server/User" ]; then
+        VSCODE_CONFIG_DIR="$HOME/.local/share/code-server/User"
+    elif [ -d "$HOME/.local/share/code-server" ]; then
+        # code-server exists but User dir not yet created - create it
+        mkdir -p "$HOME/.local/share/code-server/User"
+        VSCODE_CONFIG_DIR="$HOME/.local/share/code-server/User"
+    fi
 fi
 
-# Only configure if VS Code config directory exists
-if [ -d "$VSCODE_CONFIG_DIR" ]; then
+# Only configure if VS Code config directory exists or was created
+if [ -n "$VSCODE_CONFIG_DIR" ] && [ -d "$VSCODE_CONFIG_DIR" ]; then
     echo "🔧Configuring VS Code..."
-    
+    echo "   Using config directory: $VSCODE_CONFIG_DIR"
+
     # Symlink settings and keybindings if dotfiles are not already in ~/.config
     if [ "$DOTFILES" != "$HOME/.config" ]; then
         ln -sf "$DOTFILES/vscode" "$HOME/.config/vscode"
@@ -156,15 +172,24 @@ if [ -d "$VSCODE_CONFIG_DIR" ]; then
     ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_CONFIG_DIR/keybindings.json"
 
     # Install extensions if code CLI is available
+    CODE_CLI=""
     if command -v code &> /dev/null; then
+        CODE_CLI="code"
+    elif command -v code-server &> /dev/null; then
+        CODE_CLI="code-server"
+    elif [ -x "/tmp/code-server/bin/code-server" ]; then
+        CODE_CLI="/tmp/code-server/bin/code-server"
+    fi
+
+    if [ -n "$CODE_CLI" ]; then
         echo "📦Installing VS Code extensions..."
-        cat "$DOTFILES/vscode/extensions.txt" | xargs -L1 code --install-extension
+        cat "$DOTFILES/vscode/extensions.txt" | xargs -L1 $CODE_CLI --install-extension
     else
         echo "⚠️ VS Code CLI not found. Skipping extension installation."
         echo "   Run 'cat ~/.config/vscode/extensions.txt | xargs -L1 code --install-extension' later."
     fi
 else
-    echo "⚠️Skipping VS Code configuration."
+    echo "⚠️Skipping VS Code configuration (no VS Code installation detected)."
 fi
 
 # Cleanup: Replace hardcoded user paths with $HOME for portability
@@ -181,5 +206,17 @@ git ls-files | while IFS= read -r file; do
     fi
   fi
 done
+
+# Remove redundant uv env sourcing from zsh/.zshrc (already have PATH export)
+if [ -f "$DOTFILES/zsh/.zshrc" ]; then
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' '/^\. "\$HOME\/\.local\/bin\/env"$/d' "$DOTFILES/zsh/.zshrc" 2>/dev/null
+  else
+    sed -i '/^\. "\$HOME\/\.local\/bin\/env"$/d' "$DOTFILES/zsh/.zshrc" 2>/dev/null
+  fi
+fi
+
+# Remove any symlinks within the repo (none should exist)
+find "$DOTFILES" -type l -not -path "$DOTFILES/.git/*" -delete 2>/dev/null
 
 echo "🕺Done setting up dotfiles!"
