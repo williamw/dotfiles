@@ -4,14 +4,14 @@ sudo chown -R $USER:$USER ~/.config 2>/dev/null || true
 
 # oh-my-zsh (must run first)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "Installing oh-my-zsh..."
+    echo "☁️ Downloading oh-my-zsh..."
     RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
-    echo "oh-my-zsh is already installed."
+    echo "✅ oh-my-zsh is already installed."
 fi
 
 # Bootstrap
-echo "Setting up shell..."
+echo "⚙️  Configuring shell..."
 rm -f ~/.zshrc ~/.zshenv
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -32,17 +32,30 @@ echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
 
 sudo chsh -s $(which zsh) $USER
 
+# Claude Code
+if ! command -v claude &> /dev/null; then
+    echo "☁️ Downloading Claude Code..."
+    curl -fsSL https://claude.ai/install.sh | bash
+else
+    echo "✅ Claude Code is already installed."
+fi
+
+# Claude Code config
+echo "⚙️  Configuring Claude Code..."
+rm -f ~/.claude/settings.json
+ln -sf "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
+
 # uv
 if [ ! -f "$HOME/.local/bin/uv" ]; then
-    echo "Installing uv..."
+    echo "☁️ Downloading uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
 else
-    echo "uv is already installed."
+    echo "✅ uv is already installed."
 fi
 
 # nvm
 if [ ! -d "$HOME/.nvm" ]; then
-    echo "Installing nvm..."
+    echo "☁️ Downloading nvm..."
     
     # Get latest version and install
     NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
@@ -54,15 +67,7 @@ if [ ! -d "$HOME/.nvm" ]; then
     nvm install 22
     nvm alias default 22
 else
-    echo "nvm is already installed."
-fi
-
-# Claude Code
-if ! command -v claude &> /dev/null; then
-    echo "Installing Claude Code..."
-    curl -fsSL https://claude.ai/install.sh | bash
-else
-    echo "Claude Code is already installed."
+    echo "✅ nvm is already installed."
 fi
 
 # Nerd font
@@ -74,36 +79,36 @@ else
 fi
 
 if [ ! -d "$FONT_DIR" ]; then
-    echo "Installing FiraCode Nerd Font..."
+    echo "☁️ Downloading FiraCode Nerd Font..."
     curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
     chmod +x /tmp/getnf
     /tmp/getnf -i FiraCode
     rm /tmp/getnf
 else
-    echo "FiraCode font is already installed."
+    echo "✅ FiraCode font is already installed."
 fi
 
 # pnpm
 if ! command -v pnpm &> /dev/null; then
-    echo "Installing pnpm..."
+    echo "☁️ Downloading pnpm..."
     curl -fsSL https://get.pnpm.io/install.sh | sh -
 else
-    echo "pnpm is already installed."
+    echo "✅ pnpm is already installed."
 fi
 
 # Homebrew (macOS only)
 if [[ "$OSTYPE" == "darwin"* ]]; then
     if ! command -v brew &> /dev/null; then
-        echo "Installing Homebrew..."
+        echo "☁️ Downloading Homebrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
-        echo "Homebrew is already installed."
+        echo "✅ Homebrew is already installed."
     fi
 fi
 
 # gh cli
 if ! command -v gh &> /dev/null; then
-    echo "Installing GitHub CLI..."
+    echo "☁️ Downloading GitHub CLI..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install gh
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -114,12 +119,12 @@ if ! command -v gh &> /dev/null; then
         && sudo apt-get install -y gh
     fi
 else
-    echo "GitHub CLI is already installed."
+    echo "✅ GitHub CLI is already installed."
 fi
 
 # nvim + lazyvim
 if ! command -v nvim &> /dev/null; then
-    echo "Installing neovim..."
+    echo "☁️ Downloading neovim..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install neovim
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -128,5 +133,5 @@ if ! command -v nvim &> /dev/null; then
         sudo apt-get install -y neovim
     fi
 else
-    echo "Neovim is already installed."
+    echo "✅ Neovim is already installed."
 fi
