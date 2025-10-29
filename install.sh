@@ -6,9 +6,12 @@ sudo chown -R $USER:$USER ~/.config 2>/dev/null || true
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "Installing oh-my-zsh..."
     RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+    echo "oh-my-zsh is already installed."
 fi
 
 # Bootstrap
+echo "Setting up shell..."
 rm -f ~/.zshrc ~/.zshenv
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -29,36 +32,12 @@ echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
 
 sudo chsh -s $(which zsh) $USER
 
-# gh cli
-if ! command -v gh &> /dev/null; then
-    echo "Installing GitHub CLI..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        brew install gh
-    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-        && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-        && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-        && sudo apt-get update \
-        && sudo apt-get install -y gh
-    fi
-fi
-
-# nvim + lazyvim
-if ! command -v nvim &> /dev/null; then
-    echo "Installing neovim..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        brew install neovim
-    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        sudo add-apt-repository -y ppa:neovim-ppa/unstable
-        sudo apt-get update
-        sudo apt-get install -y neovim
-    fi
-fi
-
 # uv
 if [ ! -f "$HOME/.local/bin/uv" ]; then
     echo "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
+else
+    echo "uv is already installed."
 fi
 
 # nvm
@@ -74,34 +53,81 @@ if [ ! -d "$HOME/.nvm" ]; then
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     nvm install 22
     nvm alias default 22
+else
+    echo "nvm is already installed."
 fi
 
 # Claude Code
 if ! command -v claude &> /dev/null; then
     echo "Installing Claude Code..."
     curl -fsSL https://claude.ai/install.sh | bash
+else
+    echo "Claude Code is already installed."
 fi
 
 # Nerd font
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    if [ ! -d "$HOME/.local/share/fonts/FiraCode" ]; then
-        echo "Installing FiraCode Nerd Font..."
-        curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
-        chmod +x /tmp/getnf
-        /tmp/getnf -i FiraCode
-        rm /tmp/getnf
-    fi
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    if ! ls ~/Library/Fonts/*FiraCode*Nerd* &> /dev/null && ! ls /Library/Fonts/*FiraCode*Nerd* &> /dev/null; then
-        echo "Installing FiraCode Nerd Font..."
-        brew tap homebrew/cask-fonts
-        brew install font-fira-code-nerd-font
-    fi
+FONT_DIR=""
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    FONT_DIR="$HOME/Library/Fonts/FiraCode"
+else
+    FONT_DIR="$HOME/.local/share/fonts/FiraCode"
+fi
+
+if [ ! -d "$FONT_DIR" ]; then
+    echo "Installing FiraCode Nerd Font..."
+    curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
+    chmod +x /tmp/getnf
+    /tmp/getnf -i FiraCode
+    rm /tmp/getnf
+else
+    echo "FiraCode font is already installed."
 fi
 
 # pnpm
 
+# TODO: Add install step for pnpm
+
 # NOTE: Double-check how the pnpm install script works
-#       We don't want it to override the pnpm config we
-#       already have in .zshrc
-# pnpm config set global-bin-dir "$HOME/.local/share/pnpm"
+#       There may already be a config in $HOME/.local/share/pnpm
+#       We may need to run this:
+# pnpm config set global-bin-dir "$HOME/.config/pnpm"
+
+# Homebrew (macOS only)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    if ! command -v brew &> /dev/null; then
+        echo "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    else
+        echo "Homebrew is already installed."
+    fi
+fi
+
+# gh cli
+if ! command -v gh &> /dev/null; then
+    echo "Installing GitHub CLI..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install gh
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+        && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+        && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+        && sudo apt-get update \
+        && sudo apt-get install -y gh
+    fi
+else
+    echo "GitHub CLI is already installed."
+fi
+
+# nvim + lazyvim
+if ! command -v nvim &> /dev/null; then
+    echo "Installing neovim..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install neovim
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        sudo add-apt-repository -y ppa:neovim-ppa/unstable
+        sudo apt-get update
+        sudo apt-get install -y neovim
+    fi
+else
+    echo "Neovim is already installed."
+fi
