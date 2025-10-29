@@ -54,6 +54,5 @@
   "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
   "codesnap.transparentBackground": true,
   "explorer.confirmDragAndDrop": false,
-  "gitlens.ai.model": "vscode",
-  "gitlens.ai.vscode.model": "copilot:gpt-4.1"
+  "terminal.integrated.defaultProfile.linux": "zsh"
 }
