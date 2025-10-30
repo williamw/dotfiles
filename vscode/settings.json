@@ -45,7 +45,7 @@
   "claudeCodeChat.thinking.intensity": "think-harder",
   "workbench.activityBar.location": "top",
   "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
-  "editor.fontLigatures": true,
+  "editor.fontLigatures": false,
   "editor.autoIndentOnPaste": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "remote.SSH.connectTimeout": 1800,
