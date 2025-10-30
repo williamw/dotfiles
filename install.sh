@@ -184,7 +184,7 @@ if [ -n "$VSCODE_CONFIG_DIR" ] && [ -d "$VSCODE_CONFIG_DIR" ]; then
 
     if [ -n "$CODE_CLI" ]; then
         echo "📦Installing VS Code extensions..."
-        cat "$DOTFILES/vscode/extensions.txt" | xargs -L1 $CODE_CLI --install-extension
+        cat "$DOTFILES/vscode/extensions.txt" | xargs -L1 $CODE_CLI --install-extension 2>&1 | grep -v "Installing extensions..."
     else
         echo "⚠️ VS Code CLI not found. Skipping extension installation."
         echo "   Run 'cat ~/.config/vscode/extensions.txt | xargs -L1 code --install-extension' later."
