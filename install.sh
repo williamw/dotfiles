@@ -121,7 +121,6 @@ DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ "$DOTFILES" != "$HOME/.config" ]; then
     ln -sf "$DOTFILES/alacritty" "$HOME/.config/alacritty"
     ln -sf "$DOTFILES/gh" "$HOME/.config/gh"
-    ln -sf "$DOTFILES/git" "$HOME/.config/git"
     ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
     ln -sf "$DOTFILES/zsh" "$HOME/.config/zsh"
 fi

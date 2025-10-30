@@ -16,7 +16,6 @@ This repository configures the following tools and applications:
 - **Neovim** - Hyperextensible Vim-based text editor
 - **VS Code** - Settings, keybindings, and extensions for Visual Studio Code
 - **GitHub CLI (gh)** - GitHub's official command line tool
-- **git** - Version control configuration
 - **Alacritty** - GPU-accelerated terminal emulator
 - **Homebrew** - Package manager for macOS (macOS only)
 
@@ -51,7 +50,6 @@ When using this repository with Coder's Remote Development Environment (RDE), th
 # The install script will symlink:
 ~/.config/alacritty -> ~/.config/coderv2/dotfiles/alacritty
 ~/.config/gh -> ~/.config/coderv2/dotfiles/gh
-~/.config/git -> ~/.config/coderv2/dotfiles/git
 ~/.config/nvim -> ~/.config/coderv2/dotfiles/nvim
 ~/.config/vscode -> ~/.config/coderv2/dotfiles/vscode
 ~/.config/zsh -> ~/.config/coderv2/dotfiles/zsh
@@ -62,18 +60,6 @@ Files that need to be in specific locations (like `~/.zshrc` and `~/.claude/sett
 ## Forking This Repository
 
 If you fork this repository for your own use, make sure to update the following:
-
-### Personal Information in `git/config`
-
-Update your name and email in `git/config`:
-
-```ini
-[user]
-    name = Your Name
-    email = your.email@example.com
-```
-
-### Other Considerations
 
 - Review the shell aliases and functions in `zsh/.zshrc` to match your preferences
 - Modify the Claude Code permissions in `claude/settings.json` if desired
