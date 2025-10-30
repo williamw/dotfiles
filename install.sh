@@ -1,100 +1,7 @@
 #!/bin/bash
 
+mkdir -p ~/.config
 sudo chown -R $USER:$USER ~/.config 2>/dev/null || true
-
-# oh-my-zsh (must run first)
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "☁️Downloading oh-my-zsh..."
-    RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-else
-    echo "✓ oh-my-zsh is already installed."
-fi
-
-# Bootstrap
-echo "🔧Configuring shell..."
-rm -f ~/.zshrc ~/.zshenv
-
-DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# Only create symlinks if dotfiles are not already in ~/.config
-# (e.g., when cloned to ~/.config/coderv2/dotfiles in RDE)
-if [ "$DOTFILES" != "$HOME/.config" ]; then
-    ln -sf "$DOTFILES/alacritty" "$HOME/.config/alacritty"
-    ln -sf "$DOTFILES/gh" "$HOME/.config/gh"
-    ln -sf "$DOTFILES/git" "$HOME/.config/git"
-    ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
-    ln -sf "$DOTFILES/zsh" "$HOME/.config/zsh"
-fi
-
-ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
-
-echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
-
-sudo chsh -s $(which zsh) $USER
-
-# Claude Code
-if ! command -v claude &> /dev/null; then
-    echo "☁️Downloading Claude Code..."
-    curl -fsSL https://claude.ai/install.sh | bash
-else
-    echo "✓ Claude Code is already installed."
-fi
-
-# Claude Code config
-echo "🔧Configuring Claude Code..."
-rm -f ~/.claude/settings.json
-ln -sf "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
-
-# uv
-if [ ! -f "$HOME/.local/bin/uv" ]; then
-    echo "☁️Downloading uv..."
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-else
-    echo "✓ uv is already installed."
-fi
-
-# nvm
-if [ ! -d "$HOME/.nvm" ]; then
-    echo "☁️Downloading nvm..."
-    
-    # Get latest version and install
-    NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
-
-    # Install node/npm
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    nvm install 22
-    nvm alias default 22
-else
-    echo "✓ nvm is already installed."
-fi
-
-# Nerd font
-FONT_DIR=""
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    FONT_DIR="$HOME/Library/Fonts/FiraCode"
-else
-    FONT_DIR="$HOME/.local/share/fonts/FiraCode"
-fi
-
-if [ ! -d "$FONT_DIR" ]; then
-    echo "☁️Downloading FiraCode Nerd Font..."
-    curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
-    chmod +x /tmp/getnf
-    /tmp/getnf -i FiraCode
-    rm /tmp/getnf
-else
-    echo "✓ FiraCode font is already installed."
-fi
-
-# pnpm
-if ! command -v pnpm &> /dev/null; then
-    echo "☁️Downloading pnpm..."
-    curl -fsSL https://get.pnpm.io/install.sh | sh -
-else
-    echo "✓ pnpm is already installed."
-fi
 
 # Homebrew (macOS only)
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -135,6 +42,100 @@ if ! command -v nvim &> /dev/null; then
 else
     echo "✓ Neovim is already installed."
 fi
+
+# Claude Code
+if ! command -v claude &> /dev/null; then
+    echo "☁️Downloading Claude Code..."
+    curl -fsSL https://claude.ai/install.sh | bash
+else
+    echo "✓ Claude Code is already installed."
+fi
+
+# uv
+if [ ! -f "$HOME/.local/bin/uv" ]; then
+    echo "☁️Downloading uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+else
+    echo "✓ uv is already installed."
+fi
+
+# nvm
+if [ ! -d "$HOME/.nvm" ]; then
+    echo "☁️Downloading nvm..."
+
+    # Get latest version and install
+    NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+
+    # Install node/npm
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm install 22
+    nvm alias default 22
+else
+    echo "✓ nvm is already installed."
+fi
+
+# Nerd font
+FONT_DIR=""
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    FONT_DIR="$HOME/Library/Fonts/FiraCode"
+else
+    FONT_DIR="$HOME/.local/share/fonts/FiraCode"
+fi
+
+if [ ! -d "$FONT_DIR" ]; then
+    echo "☁️Downloading FiraCode Nerd Font..."
+    curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
+    chmod +x /tmp/getnf
+    /tmp/getnf -i FiraCode
+    rm /tmp/getnf
+else
+    echo "✓ FiraCode font is already installed."
+fi
+
+# pnpm
+if ! command -v pnpm &> /dev/null; then
+    echo "☁️Downloading pnpm..."
+    curl -fsSL https://get.pnpm.io/install.sh | sh -
+else
+    echo "✓ pnpm is already installed."
+fi
+
+# oh-my-zsh
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "☁️Downloading oh-my-zsh..."
+    RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+    echo "✓ oh-my-zsh is already installed."
+fi
+
+# Bootstrap
+echo "🔧Configuring shell..."
+rm -f ~/.zshrc ~/.zshenv
+
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Only create symlinks if dotfiles are not already in ~/.config
+# (e.g., when cloned to ~/.config/coderv2/dotfiles in RDE)
+if [ "$DOTFILES" != "$HOME/.config" ]; then
+    ln -sf "$DOTFILES/alacritty" "$HOME/.config/alacritty"
+    ln -sf "$DOTFILES/gh" "$HOME/.config/gh"
+    ln -sf "$DOTFILES/git" "$HOME/.config/git"
+    ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
+    ln -sf "$DOTFILES/zsh" "$HOME/.config/zsh"
+fi
+
+ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
+
+echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
+
+sudo chsh -s $(which zsh) $USER
+
+# Claude Code config
+echo "🔧Configuring Claude Code..."
+rm -f ~/.claude/settings.json
+ln -sf "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
 
 # Detect VS Code config directory
 # Check multiple possible locations in order of preference
@@ -192,31 +193,7 @@ else
     echo "⚠️Skipping VS Code configuration (no VS Code installation detected)."
 fi
 
-# Cleanup: Replace hardcoded user paths with $HOME for portability
-echo "🧹Cleaning up hardcoded paths..."
-
-cd "$DOTFILES"
-git ls-files | while IFS= read -r file; do
-  if [ -f "$file" ]; then
-    # Handles macOS / Linux sed differences
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-      sed -i '' -E 's|$HOME/]+|\$HOME|g; s|$HOME/]+|\$HOME|g' "$file" 2>/dev/null
-    else
-      sed -i -E 's|$HOME/]+|\$HOME|g; s|$HOME/]+|\$HOME|g' "$file" 2>/dev/null
-    fi
-  fi
-done
-
-# Remove redundant uv env sourcing from zsh/.zshrc (already have PATH export)
-if [ -f "$DOTFILES/zsh/.zshrc" ]; then
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' '/^\. "\$HOME\/\.local\/bin\/env"$/d' "$DOTFILES/zsh/.zshrc" 2>/dev/null
-  else
-    sed -i '/^\. "\$HOME\/\.local\/bin\/env"$/d' "$DOTFILES/zsh/.zshrc" 2>/dev/null
-  fi
-fi
-
-# Remove any symlinks within the repo (none should exist)
+# Cleanup: Remove any symlinks within the repo (none should exist)
 find "$DOTFILES" -type l -not -path "$DOTFILES/.git/*" -delete 2>/dev/null
 
 echo "🕺Done setting up dotfiles!"
