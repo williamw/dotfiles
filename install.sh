@@ -119,7 +119,7 @@ else
 fi
 
 # Bootstrap
-echo "🔧Configuring shell..."
+echo "⚙️Configuring shell..."
 rm -f ~/.zshrc ~/.zshenv
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -140,7 +140,7 @@ echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
 sudo chsh -s $(which zsh) $USER
 
 # MAX
-if [ ! -f "$HOME/max" ]; then
+if [ ! -d "$HOME/max" ]; then
     echo "🧠Copying MAX project..."
     cp -r "$DOTFILES/max" $HOME
 else
@@ -148,7 +148,7 @@ else
 fi
 
 # Claude Code config
-echo "🔧Configuring Claude Code..."
+echo "⚙️Configuring Claude Code..."
 rm -f ~/.claude/settings.json
 ln -sf "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
 
@@ -176,7 +176,7 @@ fi
 
 # Only configure if VS Code config directory exists or was created
 if [ -n "$VSCODE_CONFIG_DIR" ] && [ -d "$VSCODE_CONFIG_DIR" ]; then
-    echo "🔧Configuring VS Code..."
+    echo "⚙️Configuring VS Code..."
     echo "   Using config directory: $VSCODE_CONFIG_DIR"
 
     # Symlink settings and keybindings if dotfiles are not already in ~/.config
@@ -246,4 +246,4 @@ fi
 # Cleanup: Remove any symlinks within the repo (none should exist)
 find "$DOTFILES" -type l -not -path "$DOTFILES/.git/*" -delete 2>/dev/null
 
-echo "🕺Done setting up dotfiles!"
+echo "🔥Done setting up dotfiles!"
