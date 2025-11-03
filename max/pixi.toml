@@ -16,15 +16,7 @@ args = [
   { "arg" = "weights", "default" = "" },
 ]
 
-cmd = [
-    "max", 
-    "serve", 
-    "--trust-remote-code",
-    "--model",
-    "{{ model }}", 
-    "--weight-path",
-    "{{ weights }}"
-]
+cmd = """max serve --trust-remote-code --model {{ model }}{% if weights %} --weight-path {{ weights }}{% endif %}"""
 
 [dependencies]
 modular = ">=25.7.0.dev2025110305"
