@@ -19,5 +19,6 @@
       "WebFetch"
     ]
   },
+  "model": "haiku",
   "alwaysThinkingEnabled": true
 }

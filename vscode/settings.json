@@ -11,7 +11,7 @@
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "git.openRepositoryInParentFolders": "always",
-  "editor.inlineSuggest.enabled": true,
+  "editor.inlineSuggest.enabled": false,
   "github.copilot.enable": {
     "*": false,
     "plaintext": true,
@@ -54,5 +54,6 @@
   "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
   "codesnap.transparentBackground": true,
   "explorer.confirmDragAndDrop": false,
-  "terminal.integrated.defaultProfile.linux": "zsh"
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "makefile.configureOnOpen": true
 }

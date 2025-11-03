@@ -43,6 +43,14 @@ else
     echo "✓ Neovim is already installed."
 fi
 
+# Pixi
+if ! command -v pixi &> /dev/null; then
+    echo "☁️Downloading Pixi..."
+    curl -fsSL https://pixi.sh/install.sh | sh
+else
+    echo "✓ Pixi is already installed."
+fi
+
 # Claude Code
 if ! command -v claude &> /dev/null; then
     echo "☁️Downloading Claude Code..."
@@ -131,6 +139,14 @@ echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
 
 sudo chsh -s $(which zsh) $USER
 
+# MAX
+if [ ! -f "$HOME/max" ]; then
+    echo "🧠Copying MAX project..."
+    cp -r "$DOTFILES/max" $HOME
+else
+    echo "✓ MAX is already set up."
+fi
+
 # Claude Code config
 echo "🔧Configuring Claude Code..."
 rm -f ~/.claude/settings.json
@@ -183,7 +199,42 @@ if [ -n "$VSCODE_CONFIG_DIR" ] && [ -d "$VSCODE_CONFIG_DIR" ]; then
 
     if [ -n "$CODE_CLI" ]; then
         echo "📦Installing VS Code extensions..."
-        cat "$DOTFILES/vscode/extensions.txt" | xargs -L1 $CODE_CLI --install-extension 2>&1 | grep -v "Installing extensions..."
+
+        failed_extensions=()
+        new_extensions=0
+
+        while IFS= read -r extension; do
+            [ -z "$extension" ] && continue
+
+            # Run install command, capturing output
+            output=$($CODE_CLI --install-extension "$extension" 2>&1)
+            exit_code=$?
+
+            # Check if it's a new installation (not "already installed")
+            if ! echo "$output" | grep -q "already installed"; then
+                echo "   ✓ Installed $extension"
+                ((new_extensions++))
+            fi
+
+            # Track failures (non-zero exit that's not a crash)
+            if [ $exit_code -ne 0 ] && ! echo "$output" | grep -q "FATAL ERROR\|Abort trap"; then
+                failed_extensions+=("$extension")
+            fi
+
+            # Add small delay to prevent race conditions
+            sleep 0.2
+        done < "$DOTFILES/vscode/extensions.txt"
+
+        # Summary
+        if [ "$new_extensions" -gt 0 ]; then
+            echo "   Installed $new_extensions new extension(s)"
+        else
+            echo "   All extensions already installed"
+        fi
+
+        if [ ${#failed_extensions[@]} -gt 0 ]; then
+            echo "⚠️ Failed to install: ${failed_extensions[*]}"
+        fi
     else
         echo "⚠️ VS Code CLI not found. Skipping extension installation."
         echo "   Run 'cat ~/.config/vscode/extensions.txt | xargs -L1 code --install-extension' later."

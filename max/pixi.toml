@@ -1,0 +1,30 @@
+[workspace]
+authors = ["Bill Welense <billw@modular.com>"]
+channels = ["https://conda.modular.com/max-nightly", "conda-forge"]
+name = "max"
+platforms = ["osx-arm64", "linux-64"]
+version = "0.0.0"
+
+[tasks]
+update = "pixi update modular"
+
+[tasks.max]
+depends-on = ["update"]
+
+args = [
+  { "arg" = "model", "default" = "mistral-community/pixtral-12b" },
+  { "arg" = "weights", "default" = "" },
+]
+
+cmd = [
+    "max", 
+    "serve", 
+    "--trust-remote-code",
+    "--model",
+    "{{ model }}", 
+    "--weight-path",
+    "{{ weights }}"
+]
+
+[dependencies]
+modular = ">=25.7.0.dev2025110305"
