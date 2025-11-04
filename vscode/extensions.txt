@@ -29,6 +29,7 @@ ms-vscode.makefile-tools
 ms-vscode.remote-explorer
 ms-vscode.remote-server
 rickaym.manim-sideview
+shellomo.enhanced-toml
 streetsidesoftware.code-spell-checker
 unifiedjs.vscode-mdx
 vadimcn.vscode-lldb
