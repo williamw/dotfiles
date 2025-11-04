@@ -270,6 +270,7 @@ else
 fi
 
 # Cleanup: Ensure dotfiles repo matches origin exactly
+echo "🛀 Running dotfiles post-install cleanup..."
 git -C "$DOTFILES" fetch origin
 git -C "$DOTFILES" reset --hard origin/main
 git -C "$DOTFILES" clean -fd
