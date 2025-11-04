@@ -136,14 +136,6 @@ else
     echo "✓ pnpm is already installed."
 fi
 
-# MAX
-if [ ! -d "$HOME/max" ]; then
-    echo "🧠 Copying MAX project..."
-    cp -r "$DOTFILES/max" $HOME
-else
-    echo "✓ MAX project is already set up."
-fi
-
 # oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "☁️ Downloading oh-my-zsh..."
@@ -157,6 +149,14 @@ echo "⚙️ Configuring shell..."
 rm -f ~/.zshrc ~/.zshenv
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# MAX
+if [ ! -d "$HOME/max" ]; then
+    echo "🧠 Copying MAX project..."
+    cp -r "$DOTFILES/max" $HOME
+else
+    echo "✓ MAX project is already set up."
+fi
 
 # Only create symlinks if dotfiles are not already in ~/.config
 # (e.g., when cloned to ~/.config/coderv2/dotfiles in RDE)
@@ -269,7 +269,9 @@ else
     echo "⚠️ Skipping VS Code configuration (no VS Code installation detected)."
 fi
 
-# Cleanup: Remove any symlinks within the repo (none should exist)
-find "$DOTFILES" -type l -not -path "$DOTFILES/.git/*" -delete 2>/dev/null
+# Cleanup: Ensure dotfiles repo matches origin exactly
+git -C "$DOTFILES" fetch origin
+git -C "$DOTFILES" reset --hard origin/main
+git -C "$DOTFILES" clean -fd
 
 echo "🔥 Done setting up dotfiles!"
