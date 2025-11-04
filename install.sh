@@ -155,8 +155,12 @@ if [ ! -d "$HOME/max" ]; then
     echo "🧠 Copying MAX project..."
     cp -r "$DOTFILES/max" $HOME
 else
-    echo "✓ MAX project is already set up."
+    echo "⚙️ Updating MAX configuration files..."
 fi
+
+# Always update pixi.toml and activation.sh
+cp -f "$DOTFILES/max/pixi.toml" "$HOME/max/pixi.toml"
+cp -f "$DOTFILES/max/activation.sh" "$HOME/max/activation.sh"
 
 # Only create symlinks if dotfiles are not already in ~/.config
 # (e.g., when cloned to ~/.config/coderv2/dotfiles in RDE)

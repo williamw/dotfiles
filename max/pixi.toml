@@ -12,11 +12,11 @@ update = "pixi update modular"
 depends-on = ["update"]
 
 args = [
-  { "arg" = "model", "default" = "mistral-community/pixtral-12b" },
+  { "arg" = "model", "default" = "" },
   { "arg" = "weights", "default" = "" },
 ]
 
-cmd = """max serve --trust-remote-code --model {{ model }}{% if weights %} --weight-path {{ weights }}{% endif %}"""
+cmd = """max serve --trust-remote-code --model {% if model %}{{ model }}{% else %}{{ env.MAX_MODEL }}{% endif %}{% if weights %} --weight-path {{ weights }}{% elif env.MAX_WEIGHTS %} --weight-path {{ env.MAX_WEIGHTS }}{% endif %}"""
 
 [activation]
 scripts = ["activation.sh"]
