@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ -z "$HF_TOKEN" ]; then
+    eval $(op signin --account my)
     HF_TOKEN=$(op item get "Hugging Face" --fields credential --reveal 2>/dev/null)
 fi
 
@@ -35,7 +36,7 @@ elif command -v rocm_agent_enumerator &> /dev/null; then
     fi
 else
     echo "No NVIDIA or AMD toolchain detected"
-    echo "Default set to CPU-only model"
+    echo "Defaulting to CPU-only model"
     export MAX_MODEL="--model $CLASS_3_MODEL"
     export MAX_WEIGHTS="--weight-path $CLASS_3_WEIGHTS"
 fi
