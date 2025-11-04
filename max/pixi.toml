@@ -5,21 +5,23 @@ name = "max"
 platforms = ["osx-arm64", "linux-64"]
 version = "0.0.0"
 
+[activation]
+scripts = ["activation.sh"]
+
 [tasks]
 update = "pixi update modular"
 
 [tasks.max]
-depends-on = ["update"]
-
 args = [
   { "arg" = "model", "default" = "" },
   { "arg" = "weights", "default" = "" },
 ]
 
-cmd = """max serve --trust-remote-code --model {% if model %}{{ model }}{% else %}{{ env.MAX_MODEL }}{% endif %}{% if weights %} --weight-path {{ weights }}{% elif env.MAX_WEIGHTS %} --weight-path {{ env.MAX_WEIGHTS }}{% endif %}"""
-
-[activation]
-scripts = ["activation.sh"]
+cmd = """
+max serve --trust-remote-code \
+  {% if model %}--model {{ model }}{% else %}$MAX_MODEL{% endif %} \
+  {% if weights %}--weight-path {{ weights }}{% else %}$MAX_WEIGHTS{% endif %} \
+"""
 
 [dependencies]
 modular = ">=25.7.0.dev2025110305"
