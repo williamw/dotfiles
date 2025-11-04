@@ -6,7 +6,7 @@ sudo chown -R $USER:$USER ~/.config 2>/dev/null || true
 # Homebrew (macOS only)
 if [[ "$OSTYPE" == "darwin"* ]]; then
     if ! command -v brew &> /dev/null; then
-        echo "☁️Downloading Homebrew..."
+        echo "☁️ Downloading Homebrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
         echo "✓ Homebrew is already installed."
@@ -15,7 +15,7 @@ fi
 
 # gh cli
 if ! command -v gh &> /dev/null; then
-    echo "☁️Downloading GitHub CLI..."
+    echo "☁️ Downloading GitHub CLI..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install gh
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -31,7 +31,7 @@ fi
 
 # 1Password CLI
 if ! command -v op &> /dev/null; then
-    echo "☁️Downloading 1Password CLI..."
+    echo "☁️ Downloading 1Password CLI..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install --cask 1password-cli
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -57,7 +57,7 @@ fi
 
 # nvim + lazyvim
 if ! command -v nvim &> /dev/null; then
-    echo "☁️Downloading neovim..."
+    echo "☁️ Downloading neovim..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install neovim
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -71,7 +71,7 @@ fi
 
 # Pixi
 if ! command -v pixi &> /dev/null; then
-    echo "☁️Downloading Pixi..."
+    echo "☁️ Downloading Pixi..."
     curl -fsSL https://pixi.sh/install.sh | sh
 else
     echo "✓ Pixi is already installed."
@@ -79,7 +79,7 @@ fi
 
 # Claude Code
 if ! command -v claude &> /dev/null; then
-    echo "☁️Downloading Claude Code..."
+    echo "☁️ Downloading Claude Code..."
     curl -fsSL https://claude.ai/install.sh | bash
 else
     echo "✓ Claude Code is already installed."
@@ -87,7 +87,7 @@ fi
 
 # uv
 if [ ! -f "$HOME/.local/bin/uv" ]; then
-    echo "☁️Downloading uv..."
+    echo "☁️ Downloading uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
 else
     echo "✓ uv is already installed."
@@ -95,7 +95,7 @@ fi
 
 # nvm
 if [ ! -d "$HOME/.nvm" ]; then
-    echo "☁️Downloading nvm..."
+    echo "☁️ Downloading nvm..."
 
     # Get latest version and install
     NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
@@ -119,7 +119,7 @@ else
 fi
 
 if [ ! -d "$FONT_DIR" ]; then
-    echo "☁️Downloading FiraCode Nerd Font..."
+    echo "☁️ Downloading FiraCode Nerd Font..."
     curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/getnf -o /tmp/getnf
     chmod +x /tmp/getnf
     /tmp/getnf -i FiraCode
@@ -130,22 +130,30 @@ fi
 
 # pnpm
 if ! command -v pnpm &> /dev/null; then
-    echo "☁️Downloading pnpm..."
+    echo "☁️ Downloading pnpm..."
     curl -fsSL https://get.pnpm.io/install.sh | sh -
 else
     echo "✓ pnpm is already installed."
 fi
 
+# MAX
+if [ ! -d "$HOME/max" ]; then
+    echo "🧠 Copying MAX project..."
+    cp -r "$DOTFILES/max" $HOME
+else
+    echo "✓ MAX project is already set up."
+fi
+
 # oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "☁️Downloading oh-my-zsh..."
+    echo "☁️ Downloading oh-my-zsh..."
     RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
     echo "✓ oh-my-zsh is already installed."
 fi
 
-# Bootstrap
-echo "⚙️Configuring shell..."
+# Bootstrap Shell
+echo "⚙️ Configuring shell..."
 rm -f ~/.zshrc ~/.zshenv
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -165,16 +173,8 @@ echo 'export ZDOTDIR="$HOME/.config/zsh"' > ~/.zshenv
 
 sudo chsh -s $(which zsh) $USER
 
-# MAX
-if [ ! -d "$HOME/max" ]; then
-    echo "🧠Copying MAX project..."
-    cp -r "$DOTFILES/max" $HOME
-else
-    echo "✓ MAX is already set up."
-fi
-
 # Claude Code config
-echo "⚙️Configuring Claude Code..."
+echo "⚙️ Configuring Claude Code..."
 rm -f ~/.claude/settings.json
 ln -sf "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
 
@@ -202,7 +202,7 @@ fi
 
 # Only configure if VS Code config directory exists or was created
 if [ -n "$VSCODE_CONFIG_DIR" ] && [ -d "$VSCODE_CONFIG_DIR" ]; then
-    echo "⚙️Configuring VS Code..."
+    echo "⚙️ Configuring VS Code..."
     echo "   Using config directory: $VSCODE_CONFIG_DIR"
 
     # Symlink settings and keybindings if dotfiles are not already in ~/.config
@@ -224,7 +224,7 @@ if [ -n "$VSCODE_CONFIG_DIR" ] && [ -d "$VSCODE_CONFIG_DIR" ]; then
     fi
 
     if [ -n "$CODE_CLI" ]; then
-        echo "📦Installing VS Code extensions..."
+        echo "📦 Installing VS Code extensions..."
 
         failed_extensions=()
         new_extensions=0
@@ -266,10 +266,10 @@ if [ -n "$VSCODE_CONFIG_DIR" ] && [ -d "$VSCODE_CONFIG_DIR" ]; then
         echo "   Run 'cat ~/.config/vscode/extensions.txt | xargs -L1 code --install-extension' later."
     fi
 else
-    echo "⚠️Skipping VS Code configuration (no VS Code installation detected)."
+    echo "⚠️ Skipping VS Code configuration (no VS Code installation detected)."
 fi
 
 # Cleanup: Remove any symlinks within the repo (none should exist)
 find "$DOTFILES" -type l -not -path "$DOTFILES/.git/*" -delete 2>/dev/null
 
-echo "🔥Done setting up dotfiles!"
+echo "🔥 Done setting up dotfiles!"

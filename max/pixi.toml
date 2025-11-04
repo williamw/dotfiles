@@ -18,5 +18,8 @@ args = [
 
 cmd = """max serve --trust-remote-code --model {{ model }}{% if weights %} --weight-path {{ weights }}{% endif %}"""
 
+[activation]
+scripts = ["activation.sh"]
+
 [dependencies]
 modular = ">=25.7.0.dev2025110305"
