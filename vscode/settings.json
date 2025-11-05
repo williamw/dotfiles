@@ -45,5 +45,15 @@
   "codesnap.transparentBackground": true,
   "explorer.confirmDragAndDrop": false,
   "terminal.integrated.defaultProfile.linux": "zsh",
-  "makefile.configureOnOpen": true
+  "makefile.configureOnOpen": true,
+  "[python]": {
+    "editor.defaultFormatter": "astral-sh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit",
+      "source.fixAll.ruff": "explicit"
+    }
+  },
+  "ruff.nativeServer": true,
+  "python.languageServer": "None"
 }

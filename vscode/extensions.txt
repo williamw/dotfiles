@@ -2,7 +2,7 @@ adpyke.codesnap
 anthropic.claude-code
 bazelbuild.vscode-bazel
 bradlc.vscode-tailwindcss
-charliermarsh.ruff
+astral-sh.ruff
 coder.coder-remote
 davidanson.vscode-markdownlint
 dbaeumer.vscode-eslint
