@@ -25,14 +25,12 @@
   ],
   "security.workspace.trust.untrustedFiles": "open",
   "git.autofetch": true,
-  "cmake.showOptionsMovedNotification": false,
   "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
   "vsicons.dontShowNewVersionMessage": true,
   "C_Cpp.intelliSenseEngine": "disabled",
   "chat.commandCenter.enabled": false,
   "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
   "github.copilot.nextEditSuggestions.enabled": false,
-  "claudeCodeChat.thinking.intensity": "think-harder",
   "workbench.activityBar.location": "top",
   "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
   "editor.fontLigatures": false,
@@ -46,14 +44,15 @@
   "explorer.confirmDragAndDrop": false,
   "terminal.integrated.defaultProfile.linux": "zsh",
   "makefile.configureOnOpen": true,
+  "notebook.formatOnSave": true,
   "[python]": {
-    "editor.defaultFormatter": "astral-sh.ruff",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports.ruff": "explicit",
-      "source.fixAll.ruff": "explicit"
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
     }
   },
-  "ruff.nativeServer": true,
+  "ruff.nativeServer": "on",
   "python.languageServer": "None"
 }
