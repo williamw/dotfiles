@@ -136,6 +136,46 @@ else
     echo "✓ pnpm is already installed."
 fi
 
+# Bazelisk (Bazel version manager)
+if ! command -v bazel &> /dev/null; then
+    echo "☁️ Downloading Bazelisk..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install bazelisk
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        BAZELISK_URL=$(curl -s https://api.github.com/repos/bazelbuild/bazelisk/releases/latest | grep -o '"browser_download_url": "[^"]*bazelisk-linux-amd64"' | sed 's/"browser_download_url": "//;s/"$//')
+        if [ -n "$BAZELISK_URL" ]; then
+            sudo curl -fsSL -o /usr/local/bin/bazel "$BAZELISK_URL"
+            sudo chmod +x /usr/local/bin/bazel
+        fi
+    fi
+
+    if command -v bazel &> /dev/null; then
+        echo "✓ Bazelisk is installed."
+    fi
+else
+    echo "✓ Bazel/Bazelisk is already installed."
+fi
+
+# Buildifier (Bazel BUILD file formatter)
+if ! command -v buildifier &> /dev/null; then
+    echo "☁️ Downloading Buildifier..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install buildifier
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        BUILDIFIER_URL=$(curl -s https://api.github.com/repos/bazelbuild/buildtools/releases/latest | grep -o '"browser_download_url": "[^"]*buildifier-linux-amd64"' | grep -v "\.sha256" | sed 's/"browser_download_url": "//;s/"$//')
+        if [ -n "$BUILDIFIER_URL" ]; then
+            sudo curl -fsSL -o /usr/local/bin/buildifier "$BUILDIFIER_URL"
+            sudo chmod +x /usr/local/bin/buildifier
+        fi
+    fi
+
+    if command -v buildifier &> /dev/null; then
+        echo "✓ Buildifier is installed."
+    fi
+else
+    echo "✓ Buildifier is already installed."
+fi
+
 # oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "☁️ Downloading oh-my-zsh..."
