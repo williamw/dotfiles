@@ -254,8 +254,9 @@ if [ -n "$VSCODE_CONFIG_DIR" ] && [ -d "$VSCODE_CONFIG_DIR" ]; then
         ln -sf "$DOTFILES/vscode" "$HOME/.config/vscode"
     fi
 
-    ln -sf "$DOTFILES/vscode/settings.json" "$VSCODE_CONFIG_DIR/settings.json"
     ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_CONFIG_DIR/keybindings.json"
+    rm -f "$VSCODE_CONFIG_DIR/settings.json"
+    cp -f "$DOTFILES/vscode/settings.json" "$VSCODE_CONFIG_DIR/settings.json"
 
     # Install extensions if code CLI is available
     CODE_CLI=""
