@@ -27,11 +27,7 @@ PROMPT='
 %F{208}%~%f $(git_prompt_info)$(bzr_prompt_info)%F{${SYSTEM_COLOR}}[%n@%m]%f %F{240}[%T]%f
 %F{208}❯%f '
 
-if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='nvim'
- else
-   export EDITOR='code'
-fi
+export EDITOR='nvim'
 
 # cargo
 export PATH=$HOME/.cargo/bin:$PATH
