@@ -17,6 +17,7 @@ This repository configures the following tools and applications:
 - **GitHub CLI (gh)** - GitHub's official command line tool
 - **Ghostty** - Fast GPU-accelerated terminal emulator
 - **Homebrew** - Package manager for macOS (macOS only)
+- **Secrets Management** - 1Password integration via chezmoi for injecting API tokens and credentials
 
 ## Installation
 
@@ -42,8 +43,11 @@ This repo is a [chezmoi](https://www.chezmoi.io/) source directory. Files use ch
 - `dot_claude/` → `~/.claude/` (Claude Code settings)
 - `dot_zshenv` → `~/.zshenv` (sets ZDOTDIR)
 - `symlink_dot_zshrc` → `~/.zshrc` (symlink to `.config/zsh/.zshrc`)
+- `dot_config/zsh/dot_zshrc.tmpl` → `~/.config/zsh/.zshrc` (template with 1Password secret injection)
 - `max/` → `~/max/` (MAX/Modular project workspace)
 - `run_once_before_install-packages.sh.tmpl` → package installation (runs once)
+
+Templates (`.tmpl` suffix) use chezmoi's Go templating to inject secrets via 1Password integration.
 
 Karabiner configuration is automatically skipped on non-macOS systems.
 

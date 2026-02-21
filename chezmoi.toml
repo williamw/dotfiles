@@ -1,2 +1,5 @@
 # Chezmoi configuration
 # This file is read from the source directory during initialization
+
+[1password]
+command = "op"

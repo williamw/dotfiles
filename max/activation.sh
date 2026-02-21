@@ -1,14 +1,5 @@
 #!/bin/bash
 
-if [ -z "$HF_TOKEN" ]; then
-    eval $(op signin --account my)
-    HF_TOKEN=$(op item get "Hugging Face" --fields credential --reveal 2>/dev/null)
-fi
-
-if [ -z "$HF_TOKEN" ]; then
-    echo "⚠️  Warning: Failed to retrieve HF_TOKEN from 1Password. Make sure you're authenticated with 'op signin'"
-fi
-
 CLASS_1_MODEL="OpenGVLab/InternVL3-14B-Instruct"
 CLASS_2_MODEL="Qwen/Qwen2.5-VL-7B-Instruct"
 CLASS_3_MODEL="HuggingFaceTB/SmolLM2-1.7B-Instruct"

@@ -52,3 +52,6 @@ esac
 
 # pixi
 export PATH="$HOME/.pixi/bin:$PATH"
+
+# Hugging Face token (fetched from 1Password at shell startup)
+export HF_TOKEN="$(op read 'op://Private/Hugging Face/add more/credential' 2>/dev/null || echo '')"
