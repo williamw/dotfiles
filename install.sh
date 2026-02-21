@@ -8,7 +8,8 @@ DOTFILES_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if ! command -v chezmoi &>/dev/null; then
     echo "☁️ Installing chezmoi..."
-    sh -c "$(curl -fsSL get.chezmoi.io)"
+    sh -c "$(curl -fsSL get.chezmoi.io)" -- -b "$HOME/.local/bin"
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 echo "⚙️ Applying dotfiles with chezmoi..."
