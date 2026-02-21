@@ -1,6 +1,6 @@
 # Bill's Dotfiles
 
-These are my personal dotfiles for setting up a consistent development environment across macOS and Linux systems.
+These are my personal dotfiles, managed with [chezmoi](https://www.chezmoi.io/), for setting up a consistent development environment across macOS and Linux systems.
 
 ## What's Included
 
@@ -20,45 +20,39 @@ This repository configures the following tools and applications:
 
 ## Installation
 
-### Standard Installation
-
-Clone this repository to `~/.config` and run the install script:
+Clone this repository and run the bootstrapper:
 
 ```bash
-git clone <your-repo-url> ~/.config
-cd ~/.config
+git clone <your-repo-url> ~/.dotfiles
+cd ~/.dotfiles
 ./install.sh
 ```
 
-The install script will:
+The bootstrapper installs chezmoi (if needed) and runs `chezmoi init --apply`, which:
 
-1. Install all required tools and applications (skipping anything already present)
-2. Set up shell configuration and symlinks
-3. Configure Claude Code with sensible defaults
+1. Installs all required tools and applications via the `run_once_before_install-packages.sh.tmpl` script (skipping anything already present)
+2. Deploys all configuration files to their correct locations
+3. Sets zsh as the default shell
 
-### Using with Coder RDE Instances
+## How It Works
 
-When using this repository with Coder's Remote Development Environment (RDE), the dotfiles can be cloned to a custom location like `~/.config/coderv2/dotfiles`. The install script automatically detects this scenario and creates the appropriate symlinks:
+This repo is a [chezmoi](https://www.chezmoi.io/) source directory. Files use chezmoi naming conventions:
 
-```bash
-# In RDE, dotfiles might be at:
-~/.config/coderv2/dotfiles/
+- `dot_config/` → `~/.config/` (alacritty, gh, nvim, zsh, karabiner)
+- `dot_claude/` → `~/.claude/` (Claude Code settings)
+- `dot_zshenv` → `~/.zshenv` (sets ZDOTDIR)
+- `symlink_dot_zshrc` → `~/.zshrc` (symlink to `.config/zsh/.zshrc`)
+- `max/` → `~/max/` (MAX/Modular project workspace)
+- `run_once_before_install-packages.sh.tmpl` → package installation (runs once)
 
-# The install script will symlink:
-~/.config/alacritty -> ~/.config/coderv2/dotfiles/alacritty
-~/.config/gh -> ~/.config/coderv2/dotfiles/gh
-~/.config/nvim -> ~/.config/coderv2/dotfiles/nvim
-~/.config/zsh -> ~/.config/coderv2/dotfiles/zsh
-```
-
-Files that need to be in specific locations (like `~/.zshrc` and `~/.claude/settings.json`) are always symlinked regardless of the location this dotfiles repo is cloned into.
+Karabiner configuration is automatically skipped on non-macOS systems.
 
 ## Forking This Repository
 
 If you fork this repository for your own use, make sure to update the following:
 
-- Review the shell aliases and functions in `zsh/.zshrc` to match your preferences
-- Modify the Claude Code permissions in `claude/settings.json` if desired
+- Review the shell aliases and functions in `dot_config/zsh/dot_zshrc` to match your preferences
+- Modify the Claude Code permissions in `dot_claude/settings.json` if desired
 - Ensure no API keys or tokens are committed to the repo
 
 ## Platform Support
@@ -68,7 +62,7 @@ These dotfiles are designed to work on:
 - macOS (tested on Apple Silicon only)
 - Linux (Ubuntu/Debian-based distributions)
 
-The install script automatically detects the platform and installs the appropriate tools and configurations.
+Platform-specific packages are handled via chezmoi templates in the `run_once_before_install-packages.sh.tmpl` script.
 
 ## License
 
