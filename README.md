@@ -15,7 +15,7 @@ This repository configures the following tools and applications:
 - **FiraCode Nerd Font** - Monospaced font with programming ligatures and icons
 - **Neovim** - Hyperextensible Vim-based text editor
 - **GitHub CLI (gh)** - GitHub's official command line tool
-- **Alacritty** - GPU-accelerated terminal emulator
+- **Ghostty** - Fast GPU-accelerated terminal emulator
 - **Homebrew** - Package manager for macOS (macOS only)
 
 ## Installation
@@ -38,7 +38,7 @@ The bootstrapper installs chezmoi (if needed) and runs `chezmoi init --apply`, w
 
 This repo is a [chezmoi](https://www.chezmoi.io/) source directory. Files use chezmoi naming conventions:
 
-- `dot_config/` → `~/.config/` (alacritty, gh, nvim, zsh, karabiner)
+- `dot_config/` → `~/.config/` (ghostty, gh, nvim, zsh, karabiner)
 - `dot_claude/` → `~/.claude/` (Claude Code settings)
 - `dot_zshenv` → `~/.zshenv` (sets ZDOTDIR)
 - `symlink_dot_zshrc` → `~/.zshrc` (symlink to `.config/zsh/.zshrc`)
