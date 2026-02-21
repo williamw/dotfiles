@@ -1,0 +1,10 @@
+install.sh
+LICENSE
+README.md
+templates
+uv
+.gitignore
+
+{{ if ne .chezmoi.os "darwin" }}
+.config/karabiner
+{{ end }}
