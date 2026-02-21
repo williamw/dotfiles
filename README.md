@@ -14,7 +14,6 @@ This repository configures the following tools and applications:
 - **pnpm** - Fast, disk space efficient package manager for Node.js
 - **FiraCode Nerd Font** - Monospaced font with programming ligatures and icons
 - **Neovim** - Hyperextensible Vim-based text editor
-- **VS Code** - Settings, keybindings, and extensions for Visual Studio Code
 - **GitHub CLI (gh)** - GitHub's official command line tool
 - **Alacritty** - GPU-accelerated terminal emulator
 - **Homebrew** - Package manager for macOS (macOS only)
@@ -33,11 +32,9 @@ cd ~/.config
 
 The install script will:
 
-1. Install oh-my-zsh
+1. Install all required tools and applications (skipping anything already present)
 2. Set up shell configuration and symlinks
-3. Install all required tools and applications
-4. Configure Claude Code with sensible defaults
-5. Clean up any hardcoded paths for portability
+3. Configure Claude Code with sensible defaults
 
 ### Using with Coder RDE Instances
 
@@ -51,7 +48,6 @@ When using this repository with Coder's Remote Development Environment (RDE), th
 ~/.config/alacritty -> ~/.config/coderv2/dotfiles/alacritty
 ~/.config/gh -> ~/.config/coderv2/dotfiles/gh
 ~/.config/nvim -> ~/.config/coderv2/dotfiles/nvim
-~/.config/vscode -> ~/.config/coderv2/dotfiles/vscode
 ~/.config/zsh -> ~/.config/coderv2/dotfiles/zsh
 ```
 
@@ -64,19 +60,6 @@ If you fork this repository for your own use, make sure to update the following:
 - Review the shell aliases and functions in `zsh/.zshrc` to match your preferences
 - Modify the Claude Code permissions in `claude/settings.json` if desired
 - Ensure no API keys or tokens are committed to the repo
-
-## Path Portability
-
-The install script includes a cleanup step that automatically replaces hardcoded user name paths with `$HOME` variables:
-
-- Converts `/Users/<username>` (macOS) → `$HOME`
-- Converts `/home/<username>` (Linux) → `$HOME`
-
-This ensures the dotfiles remain portable across different users and systems. The cleanup:
-
-- Only processes files tracked by git (respects `.gitignore`)
-- Works for any username (not hardcoded)
-- Handles both macOS and Linux path conventions
 
 ## Platform Support
 
