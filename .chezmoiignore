@@ -1,6 +1,7 @@
 install.sh
 LICENSE
 README.md
+CLAUDE.md
 templates
 uv
 .gitignore

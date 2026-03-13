@@ -2,12 +2,34 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
+      "Read",
+      "Glob",
+      "Grep",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(echo:*)",
       "Bash(find:*)",
       "Bash(curl:*)",
       "Bash(tree:*)",
+      "Bash(grep:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(xargs:*)",
+      "Bash(which:*)",
+      "Bash(file:*)",
+      "Bash(stat:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)",
+      "Bash(diff:*)",
+      "Bash(dirname:*)",
+      "Bash(basename:*)",
+      "Bash(realpath:*)",
+      "Bash(pwd:*)",
+      "Bash(env:*)",
+      "Bash(printenv:*)",
+      "Bash(uname:*)",
+      "Bash(whoami:*)",
       "Bash(git log:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
@@ -19,6 +41,6 @@
       "WebFetch"
     ]
   },
-  "model": "opus",
+  "model": "opus[1m]",
   "alwaysThinkingEnabled": true
 }

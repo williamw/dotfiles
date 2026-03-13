@@ -47,7 +47,16 @@ This repo is a [chezmoi](https://www.chezmoi.io/) source directory. Files use ch
 - `max/` → `~/max/` (MAX/Modular project workspace)
 - `run_once_before_install-packages.sh.tmpl` → package installation (runs once)
 
-Templates (`.tmpl` suffix) use chezmoi's Go templating to inject secrets via 1Password integration.
+Templates (`.tmpl` suffix) use chezmoi's Go templating to inject secrets via 1Password integration. An active 1Password session is required when applying templates that use `onepasswordRead`.
+
+**Note:** This repo lives at `~/dotfiles`, not the chezmoi default (`~/.local/share/chezmoi`). When running chezmoi commands manually, pass `-S ~/dotfiles`:
+
+```bash
+chezmoi -S ~/dotfiles diff
+chezmoi -S ~/dotfiles apply ~/.config/ghostty/config
+```
+
+The `install.sh` bootstrapper handles this automatically via `chezmoi init --apply`.
 
 Karabiner configuration is automatically skipped on non-macOS systems.
 
