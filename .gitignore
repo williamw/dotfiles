@@ -16,3 +16,7 @@ gh/hosts.yml
 
 .claude/worktrees
 bin/
+
+# Python
+__pycache__/
+*.py[cod]
