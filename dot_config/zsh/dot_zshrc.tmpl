@@ -59,8 +59,9 @@ esac
 export PATH="$HOME/.pixi/bin:$PATH"
 {{ end -}}
 
-# Hugging Face token (optional; loaded from 1Password when available)
-if [[ -z "${HF_TOKEN:-}" ]] && command -v op &>/dev/null; then
-  HF_TOKEN="$(op read "op://Private/Hugging Face/add more/credential" 2>/dev/null || true)"
-  [[ -n "$HF_TOKEN" ]] && export HF_TOKEN
-fi
+# Hugging Face token (optional; call load_hf_token when needed)
+load_hf_token() {
+  command -v op &>/dev/null || return 1
+  HF_TOKEN="$(op read "op://Private/Hugging Face/add more/credential")" || return 1
+  export HF_TOKEN
+}
