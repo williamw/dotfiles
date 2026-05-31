@@ -1,11 +1,23 @@
 install.sh
 LICENSE
 README.md
-CLAUDE.md
+AGENTS.md
 templates
 uv
 .gitignore
 
+{{- $profile := "personal" -}}
+{{- if hasKey . "profile" -}}
+{{- $profile = .profile -}}
+{{- end }}
+
+{{ if ne $profile "modular" }}
+max
+.claude
+{{ end }}
+
 {{ if ne .chezmoi.os "darwin" }}
 .config/karabiner
 {{ end }}
+
+.config/karabiner/automatic_backups

@@ -1,3 +1,7 @@
+{{- $profile := "personal" -}}
+{{- if hasKey . "profile" -}}
+{{- $profile = .profile -}}
+{{- end }}
 export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="frisk"
@@ -46,12 +50,17 @@ export PATH="$HOME/.local/bin:$PATH"
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 
+{{ if eq $profile "modular" -}}
 # pixi
 export PATH="$HOME/.pixi/bin:$PATH"
+{{ end -}}
 
-# Hugging Face token (resolved from 1Password at chezmoi apply time)
-export HF_TOKEN="{{ onepasswordRead "op://Private/Hugging Face/add more/credential" }}"
+# Hugging Face token (optional; loaded from 1Password when available)
+if [[ -z "${HF_TOKEN:-}" ]] && command -v op &>/dev/null; then
+  HF_TOKEN="$(op read "op://Private/Hugging Face/add more/credential" 2>/dev/null || true)"
+  [[ -n "$HF_TOKEN" ]] && export HF_TOKEN
+fi

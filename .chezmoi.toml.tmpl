@@ -1,0 +1,11 @@
+# Chezmoi configuration
+{{- $profile := "personal" -}}
+{{- if hasKey . "profile" -}}
+{{- $profile = .profile -}}
+{{- end }}
+
+[1password]
+command = "op"
+
+[data]
+profile = "{{ $profile }}"

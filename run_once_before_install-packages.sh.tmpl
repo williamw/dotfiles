@@ -1,5 +1,9 @@
 #!/bin/bash
 set -euo pipefail
+{{- $profile := "personal" -}}
+{{- if hasKey . "profile" -}}
+{{- $profile = .profile -}}
+{{- end }}
 
 # --- Helpers ---
 
@@ -30,8 +34,10 @@ install_if_missing "Homebrew" "command -v brew &>/dev/null" \
 install_if_missing "GitHub CLI" "command -v gh &>/dev/null" brew install gh
 install_if_missing "1Password CLI" "command -v op &>/dev/null" brew install --cask 1password-cli
 install_if_missing "Neovim" "command -v nvim &>/dev/null" brew install neovim
+{{ if eq $profile "modular" -}}
 install_if_missing "Bazelisk" "command -v bazel &>/dev/null" brew install bazelisk
 install_if_missing "Buildifier" "command -v buildifier &>/dev/null" brew install buildifier
+{{ end -}}
 {{ else -}}
 install_if_missing "GitHub CLI" "command -v gh &>/dev/null" bash -c '
     curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
@@ -59,6 +65,7 @@ install_if_missing "Neovim" "command -v nvim &>/dev/null" bash -c '
     sudo apt-get update && sudo apt-get install -y neovim
 '
 
+{{ if eq $profile "modular" -}}
 install_if_missing "Bazelisk" "command -v bazel &>/dev/null" bash -c '
     BAZELISK_URL=$(curl -s https://api.github.com/repos/bazelbuild/bazelisk/releases/latest | grep -o "\"browser_download_url\": \"[^\"]*bazelisk-linux-amd64\"" | sed "s/\"browser_download_url\": \"//;s/\"$//")
     [ -n "$BAZELISK_URL" ] && sudo curl -fsSL -o /usr/local/bin/bazel "$BAZELISK_URL" && sudo chmod +x /usr/local/bin/bazel
@@ -69,21 +76,24 @@ install_if_missing "Buildifier" "command -v buildifier &>/dev/null" bash -c '
     [ -n "$BUILDIFIER_URL" ] && sudo curl -fsSL -o /usr/local/bin/buildifier "$BUILDIFIER_URL" && sudo chmod +x /usr/local/bin/buildifier
 '
 {{ end -}}
+{{ end -}}
 
 # --- Cross-platform installs ---
 
+{{ if eq $profile "modular" -}}
 install_if_missing "Pixi"       "command -v pixi &>/dev/null"         bash -c 'curl -fsSL https://pixi.sh/install.sh | sh'
 install_if_missing "Claude Code" "command -v claude &>/dev/null"      bash -c 'curl -fsSL https://claude.ai/install.sh | bash'
+{{ end -}}
 install_if_missing "uv"         "test -f \$HOME/.local/bin/uv"       bash -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
-install_if_missing "pnpm"       "command -v pnpm &>/dev/null"        bash -c 'curl -fsSL https://get.pnpm.io/install.sh | sh -'
+install_if_missing "pnpm"       "test -x \$HOME/.local/share/pnpm/bin/pnpm" bash -c 'curl -fsSL https://get.pnpm.io/install.sh | sh -'
 
 install_if_missing "nvm" "test -d \$HOME/.nvm" bash -c '
     NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep "\"tag_name\"" | sed -E "s/.*\"([^\"]+)\".*/\1/")
     curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    nvm install 22
-    nvm alias default 22
+    nvm install --lts
+    nvm alias default "lts/*"
 '
 
 install_if_missing "FiraCode Nerd Font" "bash -c '
@@ -104,4 +114,8 @@ install_if_missing "oh-my-zsh" "test -d \$HOME/.oh-my-zsh" bash -c \
 
 # --- Shell Configuration ---
 
-sudo chsh -s "$(which zsh)" "$USER"
+zsh_path="$(command -v zsh)"
+current_shell="$(id -P "$USER" 2>/dev/null | awk -F: '{print $NF}')"
+if [[ "$current_shell" != "$zsh_path" ]]; then
+    sudo chsh -s "$zsh_path" "$USER"
+fi

@@ -13,6 +13,15 @@ if ! command -v chezmoi &>/dev/null; then
 fi
 
 echo "⚙️ Applying dotfiles with chezmoi..."
-chezmoi init --apply --source="$DOTFILES_REPO"
+DOTFILES_PROFILE="${DOTFILES_PROFILE:-personal}"
+case "$DOTFILES_PROFILE" in
+    personal|modular) ;;
+    *)
+        echo "Unsupported DOTFILES_PROFILE: $DOTFILES_PROFILE" >&2
+        echo "Expected one of: personal, modular" >&2
+        exit 1
+        ;;
+esac
+chezmoi init --apply --source="$DOTFILES_REPO" --override-data "{\"profile\":\"$DOTFILES_PROFILE\"}"
 
 echo "🔥 Done setting up dotfiles!"

@@ -8,7 +8,7 @@ This repository configures the following tools and applications:
 
 - **oh-my-zsh** - Framework for managing Zsh configuration
 - **zsh** - Shell configuration with custom prompt and aliases
-- **Claude Code** - AI coding assistant CLI from Anthropic
+- **Claude Code** - AI coding assistant CLI from Anthropic (Modular profile only)
 - **uv** - Fast Python package installer and resolver
 - **nvm** - Node Version Manager for managing Node.js versions
 - **pnpm** - Fast, disk space efficient package manager for Node.js
@@ -18,6 +18,7 @@ This repository configures the following tools and applications:
 - **Ghostty** - Fast GPU-accelerated terminal emulator
 - **Homebrew** - Package manager for macOS (macOS only)
 - **Secrets Management** - 1Password integration via chezmoi for injecting API tokens and credentials
+- **Pixi** - Package manager for Modular/MAX environments (Modular profile only)
 
 ## Installation
 
@@ -29,9 +30,15 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-The bootstrapper installs chezmoi (if needed) and runs `chezmoi init --apply`, which:
+The bootstrapper installs chezmoi (if needed) and runs `chezmoi init --apply` with the `personal` profile by default. To install the Modular profile:
 
-1. Installs all required tools and applications via the `run_once_before_install-packages.sh.tmpl` script (skipping anything already present)
+```bash
+DOTFILES_PROFILE=modular ./install.sh
+```
+
+The bootstrapper then:
+
+1. Installs required tools and applications for the selected profile via the `run_once_before_install-packages.sh.tmpl` script (skipping anything already present)
 2. Deploys all configuration files to their correct locations
 3. Sets zsh as the default shell
 
@@ -40,14 +47,15 @@ The bootstrapper installs chezmoi (if needed) and runs `chezmoi init --apply`, w
 This repo is a [chezmoi](https://www.chezmoi.io/) source directory. Files use chezmoi naming conventions:
 
 - `dot_config/` → `~/.config/` (ghostty, gh, nvim, zsh, karabiner)
-- `dot_claude/` → `~/.claude/` (Claude Code settings)
+- `dot_claude/` → `~/.claude/` (Claude Code settings; Modular profile only)
 - `dot_zshenv` → `~/.zshenv` (sets ZDOTDIR)
 - `symlink_dot_zshrc` → `~/.zshrc` (symlink to `.config/zsh/.zshrc`)
-- `dot_config/zsh/dot_zshrc.tmpl` → `~/.config/zsh/.zshrc` (template with 1Password secret injection)
-- `max/` → `~/max/` (MAX/Modular project workspace)
+- `dot_config/zsh/dot_zshrc.tmpl` → `~/.config/zsh/.zshrc` (zsh configuration with optional 1Password-backed secrets)
+- `max/` → `~/max/` (MAX/Modular project workspace; Modular profile only)
 - `run_once_before_install-packages.sh.tmpl` → package installation (runs once)
+- `.chezmoi.toml.tmpl` → generated local chezmoi config with persisted profile data
 
-Templates (`.tmpl` suffix) use chezmoi's Go templating to inject secrets via 1Password integration. An active 1Password session is required when applying templates that use `onepasswordRead`.
+Shared secrets are loaded opportunistically from 1Password at shell startup when available, but missing 1Password access should not prevent chezmoi from applying dotfiles.
 
 **Note:** This repo lives at `~/dotfiles`, not the chezmoi default (`~/.local/share/chezmoi`). When running chezmoi commands manually, pass `-S ~/dotfiles`:
 
