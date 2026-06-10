@@ -21,6 +21,10 @@ This is a chezmoi-managed dotfiles repository.
 - `.chezmoiignore` lists repo files that chezmoi should not install (e.g. `AGENTS.md`, `README.md`, `install.sh`).
 - Templates (`.tmpl` suffix) use Go templating. Shared secrets should be optional so missing 1Password access does not prevent dotfiles from applying.
 
+## Agent tooling
+
+- `run_once_after_install-agent-tooling.sh.tmpl` clones `williamw/agent-skills` and `williamw/gh-wt` into `~/Developer`, installs skills via `npx skills` (own skills from the local clone; third-party favorites from `favorites.yaml`), and installs the `gh wt` extension from its local clone. Idempotent; both profiles; public repos (no auth required).
+
 ## Claude Code permissions
 
 - Global permissions live in `dot_claude/settings.json` (installed to `~/.claude/settings.json` for the Modular profile only). Only read-only tools and commands are allowed globally.

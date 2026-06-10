@@ -19,6 +19,8 @@ This repository configures the following tools and applications:
 - **Homebrew** - Package manager for macOS (macOS only)
 - **Secrets Management** - 1Password integration via chezmoi for injecting API tokens and credentials
 - **Pixi** - Package manager for Modular/MAX environments (Modular profile only)
+- **Agent skills** - AI agent skills + the `assistant` starter from [`williamw/agent-skills`](https://github.com/williamw/agent-skills) (installed globally via `npx skills`)
+- **gh wt** - bare-git worktree CLI extension from [`williamw/gh-wt`](https://github.com/williamw/gh-wt)
 
 ## Installation
 
@@ -67,6 +69,21 @@ chezmoi -S ~/dotfiles apply ~/.config/ghostty/config
 The `install.sh` bootstrapper handles this automatically via `chezmoi init --apply`.
 
 Karabiner configuration is automatically skipped on non-macOS systems.
+
+## Agent tooling
+
+A `run_once_after_install-agent-tooling.sh` step bootstraps the agent toolkit
+(both profiles):
+
+- Clones [`williamw/agent-skills`](https://github.com/williamw/agent-skills) and
+  [`williamw/gh-wt`](https://github.com/williamw/gh-wt) into `~/Developer`.
+- Installs your own skills from the local `agent-skills` clone via `npx skills`.
+- Installs the third-party favorites declared in `agent-skills`'
+  `skills/favorite-skills/favorites.yaml`.
+- Installs the `gh wt` extension from the local `gh-wt` clone.
+
+All target repos are public, so the step runs without GitHub authentication. It
+is idempotent: clones fast-forward on re-run and installs are safe to repeat.
 
 ## Forking This Repository
 

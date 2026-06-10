@@ -1,0 +1,52 @@
+#!/bin/bash
+set -euo pipefail
+
+DEV_DIR="$HOME/Developer"
+mkdir -p "$DEV_DIR"
+
+clone_or_update() {
+    local url="$1" dest="$2"
+    if [ -d "$dest/.git" ]; then
+        echo "↻ Updating $dest"
+        git -C "$dest" pull --ff-only || echo "  (skip: could not fast-forward $dest)"
+    else
+        echo "☁️ Cloning $url -> $dest"
+        git clone "$url" "$dest"
+    fi
+}
+
+clone_or_update "https://github.com/williamw/agent-skills.git" "$DEV_DIR/agent-skills"
+clone_or_update "https://github.com/williamw/gh-wt.git" "$DEV_DIR/gh-wt"
+
+# Ensure node/npx is available (nvm-managed)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+if command -v npx >/dev/null 2>&1; then
+    echo "🧩 Installing agent-skills from local clone"
+    npx --yes skills add "$DEV_DIR/agent-skills" --all -y -a cursor -a claude-code \
+        || echo "  (skip: agent-skills install failed)"
+
+    UV_BIN="$(command -v uv || echo "$HOME/.local/bin/uv")"
+    if [ -x "$UV_BIN" ] || command -v uv >/dev/null 2>&1; then
+        echo "🧩 Installing third-party favorites"
+        "$UV_BIN" run "$DEV_DIR/agent-skills/skills/favorite-skills/install-favorites.py" \
+            --agent cursor --agent claude-code || echo "  (skip: favorites install failed)"
+    else
+        echo "  (skip: uv not found; cannot install favorites)"
+    fi
+else
+    echo "⚠️ npx not found; skipping skill installs"
+fi
+
+# gh wt extension from local clone
+if command -v gh >/dev/null 2>&1; then
+    if gh extension list 2>/dev/null | grep -q "gh wt"; then
+        echo "✓ gh wt extension already installed"
+    else
+        echo "🧩 Installing gh-wt extension from local clone"
+        gh extension install "$DEV_DIR/gh-wt" || echo "  (skip: gh-wt install failed)"
+    fi
+else
+    echo "⚠️ gh not found; skipping gh-wt extension"
+fi
