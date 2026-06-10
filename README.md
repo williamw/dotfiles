@@ -59,14 +59,14 @@ This repo is a [chezmoi](https://www.chezmoi.io/) source directory. Files use ch
 
 Shared secrets are loaded opportunistically from 1Password at shell startup when available, but missing 1Password access should not prevent chezmoi from applying dotfiles.
 
-**Note:** This repo lives at `~/dotfiles`, not the chezmoi default (`~/.local/share/chezmoi`). When running chezmoi commands manually, pass `-S ~/dotfiles`:
+**Note:** This repo is not cloned to the chezmoi default (`~/.local/share/chezmoi`). Use `sync.py` to diff and apply changes — it detects the repo location automatically. If you need to run chezmoi directly, pass `-S` with the path to your clone:
 
 ```bash
-chezmoi -S ~/dotfiles diff
-chezmoi -S ~/dotfiles apply ~/.config/ghostty/config
+chezmoi -S /path/to/dotfiles diff
+chezmoi -S /path/to/dotfiles apply ~/.config/ghostty/config
 ```
 
-The `install.sh` bootstrapper handles this automatically via `chezmoi init --apply`.
+The `install.sh` bootstrapper also handles this automatically via `chezmoi init --apply`.
 
 Karabiner configuration is automatically skipped on non-macOS systems.
 
