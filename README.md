@@ -81,9 +81,9 @@ A `run_once_after_install-agent-tooling.sh` step bootstraps the agent toolkit:
   [`williamw/assistant-agent`](https://github.com/williamw/assistant-agent) to
   `~/Developer/assistant-agent` and prints a reminder to open it and run its setup flow from the docs.
 - On the personal profile, skips `assistant-agent` and says that it is modular-only.
-- Installs your own skills from the local `agent-skills` clone via `npx skills`.
-- Syncs the curated third-party skill pack via
-  `agent-skills/skills/manage-skills/install-skills.py`.
+- Syncs the managed skill pack via
+  `agent-skills/skills/manage-skills/install-skills.py`; skill policy lives in
+  `agent-skills`, not in dotfiles.
 - Installs the `gh wt` extension from the local `gh-wt` clone.
 
 All target repos are public, so the step runs without GitHub authentication. It
