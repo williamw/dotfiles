@@ -19,7 +19,8 @@ This repository configures the following tools and applications:
 - **Homebrew** - Package manager for macOS (macOS only)
 - **Secrets Management** - 1Password integration via chezmoi for injecting API tokens and credentials
 - **Pixi** - Package manager for Modular/MAX environments (Modular profile only)
-- **Agent skills** - AI agent skills + the `assistant` starter from [`williamw/agent-skills`](https://github.com/williamw/agent-skills) (installed globally via `npx skills`)
+- **Agent skills** - AI agent skills from [`williamw/agent-skills`](https://github.com/williamw/agent-skills) (installed globally via `npx skills`)
+- **assistant-agent** - personal work assistant starter from [`williamw/assistant-agent`](https://github.com/williamw/assistant-agent) (cloned locally for the Modular profile)
 - **gh wt** - bare-git worktree CLI extension from [`williamw/gh-wt`](https://github.com/williamw/gh-wt)
 
 ## Installation
@@ -72,11 +73,14 @@ Karabiner configuration is automatically skipped on non-macOS systems.
 
 ## Agent tooling
 
-A `run_once_after_install-agent-tooling.sh` step bootstraps the agent toolkit
-(both profiles):
+A `run_once_after_install-agent-tooling.sh` step bootstraps the agent toolkit:
 
 - Clones [`williamw/agent-skills`](https://github.com/williamw/agent-skills) and
-  [`williamw/gh-wt`](https://github.com/williamw/gh-wt) into `~/Developer`.
+  [`williamw/gh-wt`](https://github.com/williamw/gh-wt) into `~/Developer` on both profiles.
+- On the Modular profile, also clones
+  [`williamw/assistant-agent`](https://github.com/williamw/assistant-agent) to
+  `~/Developer/assistant-agent` and prints a reminder to open it and run its setup flow from the docs.
+- On the personal profile, skips `assistant-agent` and says that it is modular-only.
 - Installs your own skills from the local `agent-skills` clone via `npx skills`.
 - Syncs the curated third-party skill pack via
   `agent-skills/skills/manage-skills/install-skills.py`.

@@ -23,7 +23,7 @@ This is a chezmoi-managed dotfiles repository.
 
 ## Agent tooling
 
-- `run_once_after_install-agent-tooling.sh.tmpl` clones `williamw/agent-skills` and `williamw/gh-wt` into `~/Developer`, installs local skills via `npx skills`, syncs the curated third-party pack via `skills/manage-skills/install-skills.py`, and installs the `gh wt` extension from its local clone. Idempotent; both profiles; public repos (no auth required).
+- `run_once_after_install-agent-tooling.sh.tmpl` clones `williamw/agent-skills` and `williamw/gh-wt` into `~/Developer` on both profiles, clones `williamw/assistant-agent` to `~/Developer/assistant-agent` on the Modular profile only, prints a reminder to open that repo and run its setup flow from the docs, installs local skills via `npx skills`, syncs the curated third-party pack via `skills/manage-skills/install-skills.py`, and installs the `gh wt` extension from its local clone. Idempotent; public repos; explicit personal-profile skip note for `assistant-agent`.
 
 ## Claude Code permissions
 

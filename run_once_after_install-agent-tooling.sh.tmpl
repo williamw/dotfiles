@@ -1,3 +1,7 @@
+{{- $profile := "personal" -}}
+{{- if hasKey . "profile" -}}
+{{- $profile = .profile -}}
+{{- end -}}
 #!/bin/bash
 set -euo pipefail
 
@@ -17,6 +21,12 @@ clone_or_update() {
 
 clone_or_update "https://github.com/williamw/agent-skills.git" "$DEV_DIR/agent-skills"
 clone_or_update "https://github.com/williamw/gh-wt.git" "$DEV_DIR/gh-wt"
+{{ if eq $profile "modular" -}}
+clone_or_update "https://github.com/williamw/assistant-agent.git" "$DEV_DIR/assistant-agent"
+echo "ℹ️ assistant-agent cloned to $DEV_DIR/assistant-agent — open the repo and run its setup flow from the docs"
+{{ else -}}
+echo "ℹ️ Skipping assistant-agent bootstrap on personal profile (modular-only)"
+{{ end -}}
 
 # Ensure node/npx is available (nvm-managed)
 export NVM_DIR="$HOME/.nvm"
