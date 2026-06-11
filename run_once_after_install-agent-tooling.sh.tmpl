@@ -29,11 +29,11 @@ if command -v npx >/dev/null 2>&1; then
 
     UV_BIN="$(command -v uv || echo "$HOME/.local/bin/uv")"
     if [ -x "$UV_BIN" ] || command -v uv >/dev/null 2>&1; then
-        echo "🧩 Installing third-party favorites"
-        "$UV_BIN" run "$DEV_DIR/agent-skills/skills/favorite-skills/install-favorites.py" \
-            --agent cursor --agent claude-code || echo "  (skip: favorites install failed)"
+        echo "🧩 Syncing curated third-party skills"
+        "$UV_BIN" run "$DEV_DIR/agent-skills/skills/manage-skills/install-skills.py" sync \
+            --agent cursor --agent claude-code || echo "  (skip: curated skill sync failed)"
     else
-        echo "  (skip: uv not found; cannot install favorites)"
+        echo "  (skip: uv not found; cannot sync curated skills)"
     fi
 else
     echo "⚠️ npx not found; skipping skill installs"

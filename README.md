@@ -78,8 +78,8 @@ A `run_once_after_install-agent-tooling.sh` step bootstraps the agent toolkit
 - Clones [`williamw/agent-skills`](https://github.com/williamw/agent-skills) and
   [`williamw/gh-wt`](https://github.com/williamw/gh-wt) into `~/Developer`.
 - Installs your own skills from the local `agent-skills` clone via `npx skills`.
-- Installs the third-party favorites declared in `agent-skills`'
-  `skills/favorite-skills/favorites.yaml`.
+- Syncs the curated third-party skill pack via
+  `agent-skills/skills/manage-skills/install-skills.py`.
 - Installs the `gh wt` extension from the local `gh-wt` clone.
 
 All target repos are public, so the step runs without GitHub authentication. It
