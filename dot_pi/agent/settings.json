@@ -5,7 +5,8 @@
   "defaultThinkingLevel": "medium",
   "packages": [
     "npm:pi-web-access",
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:@gravewhisper/pi-theme-monokai-classic"
   ],
-  "theme": "monokai-spectrum-black"
+  "theme": "monokai-classic"
 }
