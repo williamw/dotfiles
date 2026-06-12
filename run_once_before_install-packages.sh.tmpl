@@ -100,8 +100,8 @@ export NVM_DIR="$HOME/.nvm"
 
 install_if_missing "Pi" "command -v pi &>/dev/null" \
     npm install -g --ignore-scripts @earendil-works/pi-coding-agent
-install_if_missing "Pi Web Access" "pi list 2>/dev/null | grep -q '^  npm:pi-web-access$'" \
-    pi install npm:pi-web-access
+install_if_missing "Pi Kagi API" "pi list 2>/dev/null | grep -q '^  npm:@mjakl/pi-kagi-api$'" \
+    pi install npm:@mjakl/pi-kagi-api
 install_if_missing "Pi MCP Adapter" "pi list 2>/dev/null | grep -q '^  npm:pi-mcp-adapter$'" \
     pi install npm:pi-mcp-adapter
 

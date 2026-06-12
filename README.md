@@ -9,7 +9,7 @@ This repository configures the following tools and applications:
 - **oh-my-zsh** - Framework for managing Zsh configuration
 - **zsh** - Shell configuration with custom prompt and aliases
 - **Pi** - AI coding assistant CLI configured with the Monokai Classic theme
-- **Pi Web Access** - Pi extension for web search and fetch tools
+- **Pi Kagi API** - Pi extension for Kagi-powered search and fetch tools
 - **uv** - Fast Python package installer and resolver
 - **nvm** - Node Version Manager for managing Node.js versions
 - **pnpm** - Fast, disk space efficient package manager for Node.js

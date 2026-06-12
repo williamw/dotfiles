@@ -4,7 +4,7 @@
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "medium",
   "packages": [
-    "npm:pi-web-access",
+    "npm:@mjakl/pi-kagi-api",
     "npm:pi-mcp-adapter",
     "npm:@gravewhisper/pi-theme-monokai-classic"
   ],
