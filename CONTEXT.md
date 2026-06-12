@@ -52,7 +52,7 @@ Karabiner is a neutral app config for macOS machines.
 
 Karabiner automatic backups are not owned config.
 
-Neovim is a neutral app config.
+Helix is a neutral app config.
 
 **Shared Secret**:
 A secret used intentionally across profiles.

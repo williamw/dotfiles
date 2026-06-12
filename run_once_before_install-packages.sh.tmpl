@@ -33,7 +33,7 @@ install_if_missing "Homebrew" "command -v brew &>/dev/null" \
 
 install_if_missing "GitHub CLI" "command -v gh &>/dev/null" brew install gh
 install_if_missing "1Password CLI" "command -v op &>/dev/null" brew install --cask 1password-cli
-install_if_missing "Neovim" "command -v nvim &>/dev/null" brew install neovim
+install_if_missing "Helix" "command -v hx &>/dev/null" brew install helix
 {{ if eq $profile "modular" -}}
 install_if_missing "Bazelisk" "command -v bazel &>/dev/null" brew install bazelisk
 install_if_missing "Buildifier" "command -v buildifier &>/dev/null" brew install buildifier
@@ -60,9 +60,9 @@ install_if_missing "1Password CLI" "command -v op &>/dev/null" bash -c '
     sudo apt-get update && sudo apt-get install -y 1password-cli
 '
 
-install_if_missing "Neovim" "command -v nvim &>/dev/null" bash -c '
-    sudo add-apt-repository -y ppa:neovim-ppa/unstable
-    sudo apt-get update && sudo apt-get install -y neovim
+install_if_missing "Helix" "command -v hx &>/dev/null" bash -c '
+    sudo add-apt-repository -y ppa:maveonair/helix-editor
+    sudo apt-get update && sudo apt-get install -y helix
 '
 
 {{ if eq $profile "modular" -}}

@@ -14,7 +14,7 @@ This repository configures the following tools and applications:
 - **nvm** - Node Version Manager for managing Node.js versions
 - **pnpm** - Fast, disk space efficient package manager for Node.js
 - **FiraCode Nerd Font** - Monospaced font with programming ligatures and icons
-- **Neovim** - Hyperextensible Vim-based text editor
+- **Helix** - Modal terminal text editor configured with the Monokai Pro Spectrum theme
 - **GitHub CLI (gh)** - GitHub's official command line tool
 - **Ghostty** - Fast GPU-accelerated terminal emulator
 - **Homebrew** - Package manager for macOS (macOS only)
@@ -50,7 +50,7 @@ The bootstrapper then:
 
 This repo is a [chezmoi](https://www.chezmoi.io/) source directory. Files use chezmoi naming conventions:
 
-- `dot_config/` → `~/.config/` (ghostty, gh, nvim, zsh, karabiner)
+- `dot_config/` → `~/.config/` (ghostty, gh, helix, zsh, karabiner)
 - `dot_claude/` → `~/.claude/` (legacy Claude Code settings; Modular profile only)
 - `dot_zshenv` → `~/.zshenv` (sets ZDOTDIR)
 - `symlink_dot_zshrc` → `~/.zshrc` (symlink to `.config/zsh/.zshrc`)
