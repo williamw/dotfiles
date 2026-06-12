@@ -82,7 +82,6 @@ install_if_missing "Buildifier" "command -v buildifier &>/dev/null" bash -c '
 
 {{ if eq $profile "modular" -}}
 install_if_missing "Pixi"       "command -v pixi &>/dev/null"         bash -c 'curl -fsSL https://pixi.sh/install.sh | sh'
-install_if_missing "Claude Code" "command -v claude &>/dev/null"      bash -c 'curl -fsSL https://claude.ai/install.sh | bash'
 {{ end -}}
 install_if_missing "uv"         "test -f \$HOME/.local/bin/uv"       bash -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
 install_if_missing "pnpm"       "test -x \$HOME/.local/share/pnpm/bin/pnpm" bash -c 'curl -fsSL https://get.pnpm.io/install.sh | sh -'
@@ -95,6 +94,14 @@ install_if_missing "nvm" "test -d \$HOME/.nvm" bash -c '
     nvm install --lts
     nvm alias default "lts/*"
 '
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+install_if_missing "Pi" "command -v pi &>/dev/null" \
+    npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+install_if_missing "Pi Web Access" "pi list 2>/dev/null | grep -q '^  npm:pi-web-access$'" \
+    pi install npm:pi-web-access
 
 install_if_missing "FiraCode Nerd Font" "bash -c '
     if [[ \"\$OSTYPE\" == \"darwin\"* ]]; then

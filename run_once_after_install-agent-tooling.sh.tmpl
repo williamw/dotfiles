@@ -37,7 +37,7 @@ if command -v npx >/dev/null 2>&1; then
     if [ -x "$UV_BIN" ] || command -v uv >/dev/null 2>&1; then
         echo "🧩 Syncing managed skills"
         "$UV_BIN" run "$DEV_DIR/agent-skills/skills/manage-skills/install-skills.py" sync \
-            --agent cursor --agent claude-code || echo "  (skip: managed skill sync failed)"
+            --agent cursor || echo "  (skip: managed skill sync failed)"
     else
         echo "  (skip: uv not found; cannot sync managed skills)"
     fi

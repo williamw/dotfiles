@@ -8,7 +8,8 @@ This repository configures the following tools and applications:
 
 - **oh-my-zsh** - Framework for managing Zsh configuration
 - **zsh** - Shell configuration with custom prompt and aliases
-- **Claude Code** - AI coding assistant CLI from Anthropic (Modular profile only)
+- **Pi** - AI coding assistant CLI
+- **Pi Web Access** - Pi extension for web search and fetch tools
 - **uv** - Fast Python package installer and resolver
 - **nvm** - Node Version Manager for managing Node.js versions
 - **pnpm** - Fast, disk space efficient package manager for Node.js
@@ -50,7 +51,7 @@ The bootstrapper then:
 This repo is a [chezmoi](https://www.chezmoi.io/) source directory. Files use chezmoi naming conventions:
 
 - `dot_config/` → `~/.config/` (ghostty, gh, nvim, zsh, karabiner)
-- `dot_claude/` → `~/.claude/` (Claude Code settings; Modular profile only)
+- `dot_claude/` → `~/.claude/` (legacy Claude Code settings; Modular profile only)
 - `dot_zshenv` → `~/.zshenv` (sets ZDOTDIR)
 - `symlink_dot_zshrc` → `~/.zshrc` (symlink to `.config/zsh/.zshrc`)
 - `dot_config/zsh/dot_zshrc.tmpl` → `~/.config/zsh/.zshrc` (zsh configuration with optional 1Password-backed secrets)
@@ -94,7 +95,7 @@ is idempotent: clones fast-forward on re-run and installs are safe to repeat.
 If you fork this repository for your own use, make sure to update the following:
 
 - Review the shell aliases and functions in `dot_config/zsh/dot_zshrc` to match your preferences
-- Modify the Claude Code permissions in `dot_claude/settings.json` if desired
+- Modify any legacy Claude Code permissions in `dot_claude/settings.json` if desired
 - Ensure no API keys or tokens are committed to the repo
 
 ## Platform Support
